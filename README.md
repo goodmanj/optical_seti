@@ -1,1 +1,3 @@
-# optical_seti
+# Optical SETI: Project Description
+
+This project is an attempt to find artificial narrow laser signals in the spectrums of stars...
