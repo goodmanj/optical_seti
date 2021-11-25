@@ -1,0 +1,8 @@
+from optical_seti_functions import running_median, running_standarddev, seti_spike_analyzer
+import numpy as np
+seti_spike_analyzer(arr1, min_count = 4, max_count = 12, threshold_multiplier = 5, stwindow = 101)
+continuum = running_median(arr1,window_size)
+threshold =continuum+ np.array(running_standarddev(arr1, stwindow)) * threshold_multiplier
+normalized_flux = arr1[0:len(continuum)]/continuum
+from matplotlib import pyplot as plt
+plt.plot(range(0, len(continuum), arr1[0:len(continuum], range(0, len(continuum)), continuum[0:len(continuum)], range(0,len(continuum)), threshold[0:len(continuum])
