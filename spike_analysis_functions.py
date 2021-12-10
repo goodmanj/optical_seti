@@ -6,13 +6,19 @@ def seti_spike_analyzer(arr1, min_count = 4, max_count = 8, threshold_multiplier
     hits_start = []
     hits_end = []
     for i in range(50,len(continuum) - 50):
-            if arr1[i] >= continuum[i + 50] + flux_threshold[i + 50]:
+            if arr1[i] >= continuum[i - 50] + flux_threshold[i - 50]:
                   count += 1
             else:
-                if count >= min_count and count <= max_count:
+                if (count >= min_count) and (count <= max_count):
+                    print("Hit found.\n")
+                    print("arr1: ")
+                    print(arr1[i-count:i])
+                    print("\n threshhold: ")
+                    print(continuum[(i-50):(i-50+count)]+flux_threshold[(i-50):(i-50+count)])
+                    print("\n")
                     hits_start.append(i-count)
                     hits_end.append(i)
-                    count = 0
+                count = 0
     print(hits_start, hits_end)
     return(hits_start, hits_end)
     
@@ -65,3 +71,5 @@ def flat_spectrum_plot(wave, normalized_flux, index1, index2):
 def median_spectrum_plot(wave, runing_median, index1, index2, label):
     from matplotlib import pyplot as plt
     plt.plot(wave[index1:index2],running_median[index1:index2], '.-', label='')
+    
+    
