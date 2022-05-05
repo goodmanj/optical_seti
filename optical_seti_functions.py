@@ -121,7 +121,7 @@ def seti_spike_analyzer(arr1, min_count = 4, max_count = 8, threshold_multiplier
     cosmic_ray_threshold = np.array(running_standarddev(arr1, stwindow)) * (cosmic_ray_threshold)
     hits_start = []
     hits_end = []
-    prohibited_wavelengths = list(range(179500, 179610)) + list(range(251821, 251900)) + list(range(210810, 210914)) + list(range(258200, 258312)) + list(range(141600, 141712)) + list(range(141800, 141912)) + list(range(211400, 211512))
+    prohibited_wavelengths = list(range(179450, 179650)) + list(range(251750, 251950)) + list(range(210750, 210950)) + list(range(258150, 258350)) + list(range(141550, 141750)) + list(range(141750, 141950)) + list(range(211350, 211550))
     for i in range(50,len(continuum) - 50):
             if arr1[i] >= continuum[i - 50] + flux_threshold[i - 50]:
                   count += 1
@@ -140,14 +140,15 @@ def seti_spike_analyzer(arr1, min_count = 4, max_count = 8, threshold_multiplier
     print(hits_start, hits_end)
     return hits_start, hits_end, count
           
-def wormhunter(arr1, min_count = 4, max_count = 60, threshold_multiplier = 3, stwindow = 101, window_size = 101):
+def wormhunter(arr1, min_count = 4, max_count = 60, threshold_multiplier = 3.5, stwindow = 101, window_size = 101):
     continuum = running_median(arr1, window_size)
     count = 0 #we set the count variable
     import numpy as np
     flux_threshold = np.array(running_standarddev(arr1, stwindow)) * (threshold_multiplier)
     hits_start = []
     hits_end = []
-    prohibited_wavelengths = list(range(179500, 179610)) + list(range(251821, 251900)) + list(range(210810, 210910)) + list(range(258200, 258312)) + list(range(141600, 141712)) + list(range(141800, 141912)) + list(range(211400, 211512))
+    intermediate_counts = []
+    prohibited_wavelengths = list(range(179450, 179650)) + list(range(251750, 251950)) + list(range(210750, 210950)) + list(range(258150, 258350)) + list(range(141550, 141750)) + list(range(141750, 141950)) + list(range(211350, 211550))
     for i in range(50,len(continuum) - 50):
             if arr1[i] >= continuum[i - 50] + flux_threshold[i - 50]:
                   count += 1
@@ -165,25 +166,27 @@ def wormhunter(arr1, min_count = 4, max_count = 60, threshold_multiplier = 3, st
                         peaky = arr1[cosmic_ray_start:cosmic_ray_end] - continuum[(cosmic_ray_start - 50):(cosmic_ray_end - 50)]
                         intermediate_count = 0
                         top_threshold = (np.amax(peaky) * (0.7)) 
-                        bottom_threshold = (np.amax(peaky) * (0.25)) 
+                        bottom_threshold = (np.amax(peaky) * (0.2)) 
                         for j in range(0, len(peaky)):
                             if peaky[j] <= top_threshold  and peaky[j] >= bottom_threshold:
                                 intermediate_count += 1 
                         if intermediate_count != 0:
                               hits_start.append(i-count)
                               hits_end.append(i)
+                              intermediate_counts.append(intermediate_count)
                 count = 0             
-    print(hits_start, hits_end)
-    return hits_start, hits_end, count
+    print(hits_start, hits_end, intermediate_counts)
+    return hits_start, hits_end, intermediate_counts
 
-def wormsearcher(arr1, min_count = 4, max_count = 60, threshold_multiplier = 3, stwindow = 101, window_size = 101):
+def wormsearcher(arr1, wave, min_count = 4, max_count = 60, threshold_multiplier = 3, stwindow = 101, window_size = 101):
     continuum = running_median(arr1, window_size)
     count = 0 #we set the count variable
     import numpy as np
     flux_threshold = np.array(running_standarddev(arr1, stwindow)) * (threshold_multiplier)
     hits_start = []
     hits_end = []
-    prohibited_wavelengths = list(range(179500, 179610)) + list(range(251821, 251900)) + list(range(210810, 210910)) + list(range(258200, 258312)) + list(range(141600, 141712)) + list(range(141800, 141912)) + list(range(211400, 211512))
+    intermediate_count = 0
+    prohibited_wavelengths = list(range(179500, 179610)) + list(range(251810, 251910)) + list(range(210810, 210910)) + list(range(258200, 258312)) + list(range(141600, 141712)) + list(range(141800, 141912)) + list(range(211400, 211512))  
     for i in range(50,len(continuum) - 50):
             if arr1[i] >= continuum[i - 50] + flux_threshold[i - 50]:
                   count += 1
@@ -195,7 +198,7 @@ def wormsearcher(arr1, min_count = 4, max_count = 60, threshold_multiplier = 3, 
                     # print("\n threshhold: ")
                     # print(continuum[(i-50):(i-50+count)]+flux_threshold[(i-50):(i-50+count)])
                     # print("\n")
-                    if i not in prohibited_wavelengths:
+                    if int(wave[i]) not in prohibited_wavelengths:
                         hits_start.append(i-count)
                         hits_end.append(i)
                         cosmic_ray_start = (i-count) - 5 #The algorithm is trained to search it's immediate 'neighborhood' of pixels, hence why we expand the
@@ -207,7 +210,6 @@ def wormsearcher(arr1, min_count = 4, max_count = 60, threshold_multiplier = 3, 
                         for j in range(0, len(peaky)):
                             if peaky[j] <= top_threshold  and peaky[j] >= bottom_threshold:
                                 intermediate_count += 1 
-                                return intermediate_count
                 count = 0             
     print(hits_start, hits_end)
     return hits_start, hits_end, count, intermediate_count
