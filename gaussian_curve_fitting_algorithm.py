@@ -10,7 +10,7 @@ from astropy.io import fits
 from optical_seti_functions import doppler_broadening_calculator
 fits_file = fits.open("C://Users//HAL 9000//.astropy//cache/astroquery//Eso//ADP.2017-07-16T01_01_15.941.fits") #known cosmic ray
 # fits_file = fits.open("C:\\Users\\HAL 9000\\.astropy\\cache\\astroquery\\Eso\\ADP.2019-05-11T01_08_36.042.fits") #known stellar emission lines
-# fits_file = fits.open("C:\\Users\\HAL 9000\\.astropy\\cache\\astroquery\\Eso\\ADP.2014-09-16T11_04_49.937.fits") #Our "UFO" Candidate
+# fits_file = fits.open("C:\\Users\\HAL 9000\\.astropy\\cache\\astroquery\\Eso\\ADP.2014-09-16T11_04_49.937.fits") #Our signal candidate
 spectral_data = fits_file[1].data
 wave = spectral_data[0][0]
 arr1 = spectral_data[0][1]
