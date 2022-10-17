@@ -257,3 +257,11 @@ def doppler_detective(wavelength1, wavelength2):
         return(radial_velocity)
         print(str(radial_velocity) + "m/s")
 
+def doppler_broadening_calculator(fwhm, rest_wavelength):
+    import numpy as np
+    c = 2.99E8 #speed of light
+    k = 1.38E-23 #Boltzmann's constant
+    m = 1.67E-27 #mass of a hydrogen atom
+    T = (((c**2) * m)/(k)) * ((fwhm)**2)/(8*np.log(2)*(rest_wavelength ** 2)) 
+    return T
+    print(str(T) + "K")
