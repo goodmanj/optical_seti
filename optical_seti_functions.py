@@ -1,4 +1,8 @@
 import numpy as np
+from matplotlib import pyplot as plt
+
+# Calculate running median of arr1, using window size.
+# Output size is arr1 size - window_size
 def running_median(arr1, window_size):
     fluxes = np.array(arr1)
     median_iterations = len(arr1) - window_size + 1
@@ -9,6 +13,8 @@ def running_median(arr1, window_size):
         running_median.append(np.median(fluxes[start:end])) 
     return(running_median)
 
+# Calculate running mean of arr1, using window size.
+# Output size is arr1 size - window_size
 def running_mean(arr1, window_size):
     fluxes = np.array(arr1)
     mean_iterations = len(fluxes) - window_size + 1
@@ -19,12 +25,15 @@ def running_mean(arr1, window_size):
         running_mean.append(np.mean(fluxes[start:end])) 
     return(running_mean)
 
+# JCG: This needs work.  Bad name: what does this function actually do?
+# What's with the 500?  Should be a function argument or predefined parameter
+# Are we actually using this?  Delete?
 def smoothed_spectrum(running_median, arr1):
    normalized_flux = arr1[500:(len(running_median) + 500)]/running_median
    return normalized_flux
 
 
-
+# JCG: Are we actually using this?  Delete?
 def spike_searcher(normalized_flux):
     count = 0 #we set the count variable
     for i in range(len(normalized_flux)):
@@ -35,18 +44,22 @@ def spike_searcher(normalized_flux):
                     print(i - count, i)
                     count = 0
 
+# Do we need separate functions for these?  Can't we just do one function
+#
+# spectrum_plot(wave,quantity,index1,index2) and call it with different arguments outside?
+
 def original_spectrum_plot(wave, arr1, index1, index2):
-    from matplotlib import pyplot as plt
     plt.plot(wave[index1:index2], arr1[index1:index2], '.-')
 
+# Explain what "flat" means.  Are we using this?
 def flat_spectrum_plot(wave, normalized_flux, index1, index2):  
-    from matplotlib import pyplot as plt
     plt.plot(wave[index1:index2], normalized_flux[index1:index2], '.-', label='')
 
 def median_spectrum_plot(wave, runing_median, index1, index2, label):
-    from matplotlib import pyplot as plt
     plt.plot(wave[index1:index2],running_median[index1:index2], '.-', label='')
 
+
+# JCG: Are we using this?
 def seti_spike_searcher(arr1, min_count = 5, max_count = 500, flux_threshold = 5):
     window_size = 1000
     continuum = running_median(arr1, window_size)
@@ -62,6 +75,7 @@ def seti_spike_searcher(arr1, min_count = 5, max_count = 500, flux_threshold = 5
                     count = 0
 #Put stricter upper limit to rule out broader
 
+# JCG: Put this with the other "running" functions.
 def running_standarddev(arr1, stwindow):
     import numpy as np
     fluxes = np.array(arr1)
@@ -73,6 +87,8 @@ def running_standarddev(arr1, stwindow):
         running_stdeviation.append(np.std(fluxes[start:end])) 
     return(running_stdeviation)
 
+
+# JCG: If this extended comment block isn't being used, get rid of it
 
 # def seti_spike_analyzer(arr1, min_count = 5, max_count = 500, threshold_multiplier = 4, stwindow = 100):
 #     window_size = 1000
@@ -113,6 +129,13 @@ def running_standarddev(arr1, stwindow):
 #     print(hits_start, hits_end)
 #     return(hits_start, hits_end) 
 
+# JCG: The *actual* search routine?  Needs a *lot* of comments, explanation of arguments and so on.
+#
+# Input arguments:
+#   arr1: blah blah
+#   min_cont: blah blah
+#   max_count: blah blah
+
 def seti_spike_analyzer(arr1, min_count = 4, max_count = 8, threshold_multiplier = 3, cosmic_ray_threshold = 1.5, stwindow = 101, window_size = 101):
     continuum = running_median(arr1, window_size)
     count = 0 #we set the count variable
@@ -127,6 +150,7 @@ def seti_spike_analyzer(arr1, min_count = 4, max_count = 8, threshold_multiplier
                   count += 1
             else:
                 if (count >= min_count) and (count <= max_count):
+                    # JCG: Get rid of this
                     # print("Hit found.\n")
                     # print("arr1: ")
                     # print(arr1[i-count:i])
