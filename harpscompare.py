@@ -51,9 +51,9 @@ def download_raw(rawfilearc,decompress=True):
         return rawfilename
 
 # Read spectral layout information (location of spectral orders on CCD chip and what wavelengths they correspond to)
-start_wavelength = [float(x.split('\t')[7]) for x in open("harps_spectralpositioning.txt").readlines()]
-end_wavelength = [float(x.split('\t')[8]) for x in open("harps_spectralpositioning.txt").readlines()]
-y_spectral_locations = [int(x.split('\t')[2]) for x in open("harps_spectralpositioning.txt").readlines()]
+start_wavelength = [float(x.split('\t')[7]) for x in open("C:\\Users\\HAL 9000\\OneDrive\\Documents\\GitHub\\optical_seti\\harps_spectralpositioning.txt").readlines()]
+end_wavelength = [float(x.split('\t')[8]) for x in open("C:\\Users\\HAL 9000\\OneDrive\\Documents\\GitHub\\optical_seti\\harps_spectralpositioning.txt").readlines()]
+y_spectral_locations = [int(x.split('\t')[2]) for x in open("C:\\Users\\HAL 9000\\OneDrive\\Documents\\GitHub\\optical_seti\\harps_spectralpositioning.txt").readlines()]
 
 # Figure out which spectral order (where on the CCD) a given wavelength is.
 
@@ -72,7 +72,7 @@ def find_order(lamb):  # lamb in nanometers
 
 # Plot spectrum and CCD image file on the same figure.  specfilename and rawfilename should be files already
 # downloaded to the local computer.  This function plots one full spectral order containing wavelength
-# "lamb" (in nanometers)  Countmin and countmax are optional arguments describing the scale of the spectral graph, and the color
+# "lamb".   Countmin and countmax are optional arguments describing the scale of the spectral graph, and the color
 # range of the CCD image.
 def compare_spec_to_raw(specfilename,rawfilename,lamb,countmin=-1,countmax=-1):
 # Open spectral and raw image files
@@ -85,7 +85,7 @@ def compare_spec_to_raw(specfilename,rawfilename,lamb,countmin=-1,countmax=-1):
     im = rawfits[ccd].data
 # Subplot: Upper panel shows spectrum, lower panel shows CCD image
     plt.subplot(2,1,1)
-    if (countmin==-1): #if no value for countmin and countmax were provided
+    if (countmin==-1):
         countmin = np.mean(arr1)-2*np.std(arr1)  # Try to make plot axis limits reasonable based on range of data
         countmax = np.mean(arr1)+6*np.std(arr1)
     plt.plot(wave,arr1)

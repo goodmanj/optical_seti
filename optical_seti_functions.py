@@ -4,9 +4,9 @@ def running_median(arr1, window_size):
     median_iterations = len(arr1) - window_size + 1
     running_median = []
     for i in range(0, median_iterations):
-        start = i
+        start = i 
         end = i + window_size
-        running_median.append(np.median(fluxes[start:end]))
+        running_median.append(np.median(fluxes[start:end])) 
     return(running_median)
 
 def running_mean(arr1, window_size):
@@ -14,9 +14,9 @@ def running_mean(arr1, window_size):
     mean_iterations = len(fluxes) - window_size + 1
     running_mean = []
     for i in range(0, mean_iterations):
-        start = i
+        start = i 
         end = i + window_size
-        running_mean.append(np.mean(fluxes[start:end]))
+        running_mean.append(np.mean(fluxes[start:end])) 
     return(running_mean)
 
 def smoothed_spectrum(running_median, arr1):
@@ -68,9 +68,9 @@ def running_standarddev(arr1, stwindow):
     standard_iterations = len(arr1) - stwindow + 1
     running_stdeviation = []
     for i in range(0, standard_iterations):
-        start = i
+        start = i 
         end = i + stwindow
-        running_stdeviation.append(np.std(fluxes[start:end]))
+        running_stdeviation.append(np.std(fluxes[start:end])) 
     return(running_stdeviation)
 
 
@@ -111,7 +111,7 @@ def running_standarddev(arr1, stwindow):
 #                     hits_end.append(i)
 #                 count = 0
 #     print(hits_start, hits_end)
-#     return(hits_start, hits_end)
+#     return(hits_start, hits_end) 
 
 def seti_spike_analyzer(arr1, min_count = 4, max_count = 8, threshold_multiplier = 3, cosmic_ray_threshold = 1.5, stwindow = 101, window_size = 101):
     continuum = running_median(arr1, window_size)
@@ -121,7 +121,7 @@ def seti_spike_analyzer(arr1, min_count = 4, max_count = 8, threshold_multiplier
     cosmic_ray_threshold = np.array(running_standarddev(arr1, stwindow)) * (cosmic_ray_threshold)
     hits_start = []
     hits_end = []
-    prohibited_wavelengths = list(range(179500, 179610)) + list(range(251821, 251900)) + list(range(210810, 210914)) + list(range(258200, 258312)) + list(range(141600, 141712)) + list(range(141800, 141912)) + list(range(211400, 211512))
+    prohibited_wavelengths = list(range(179450, 179650)) + list(range(251750, 251950)) + list(range(210750, 210950)) + list(range(258150, 258350)) + list(range(141550, 141750)) + list(range(141750, 141950)) + list(range(211350, 211550))
     for i in range(50,len(continuum) - 50):
             if arr1[i] >= continuum[i - 50] + flux_threshold[i - 50]:
                   count += 1
@@ -139,7 +139,7 @@ def seti_spike_analyzer(arr1, min_count = 4, max_count = 8, threshold_multiplier
                 count = 0
     print(hits_start, hits_end)
     return hits_start, hits_end, count
-         
+          
 def wormhunter(arr1, min_count = 4, max_count = 60, threshold_multiplier = 3.5, stwindow = 101, window_size = 101):
     continuum = running_median(arr1, window_size)
     count = 0 #we set the count variable
@@ -148,7 +148,7 @@ def wormhunter(arr1, min_count = 4, max_count = 60, threshold_multiplier = 3.5, 
     hits_start = []
     hits_end = []
     intermediate_counts = []
-    prohibited_wavelengths = list(range(179500, 179610)) + list(range(251810, 251910)) + list(range(210810, 210910)) + list(range(258200, 258312)) + list(range(141600, 141712)) + list(range(141800, 141912)) + list(range(211400, 211512))
+    prohibited_wavelengths = list(range(179450, 179650)) + list(range(251750, 251950)) + list(range(210750, 210950)) + list(range(258150, 258350)) + list(range(141550, 141750)) + list(range(141750, 141950)) + list(range(211350, 211550))
     for i in range(50,len(continuum) - 50):
             if arr1[i] >= continuum[i - 50] + flux_threshold[i - 50]:
                   count += 1
@@ -165,20 +165,20 @@ def wormhunter(arr1, min_count = 4, max_count = 60, threshold_multiplier = 3.5, 
                         cosmic_ray_end = i + 5
                         peaky = arr1[cosmic_ray_start:cosmic_ray_end] - continuum[(cosmic_ray_start - 50):(cosmic_ray_end - 50)]
                         intermediate_count = 0
-                        top_threshold = (np.amax(peaky) * (0.7))
-                        bottom_threshold = (np.amax(peaky) * (0.25))
+                        top_threshold = (np.amax(peaky) * (0.7)) 
+                        bottom_threshold = (np.amax(peaky) * (0.2)) 
                         for j in range(0, len(peaky)):
                             if peaky[j] <= top_threshold  and peaky[j] >= bottom_threshold:
-                                intermediate_count += 1
+                                intermediate_count += 1 
                         if intermediate_count != 0:
                               hits_start.append(i-count)
                               hits_end.append(i)
                               intermediate_counts.append(intermediate_count)
-                count = 0            
+                count = 0             
     print(hits_start, hits_end, intermediate_counts)
     return hits_start, hits_end, intermediate_counts
 
-def wormsearcher(arr1, min_count = 4, max_count = 60, threshold_multiplier = 3, stwindow = 101, window_size = 101):
+def wormsearcher(arr1, wave, min_count = 4, max_count = 60, threshold_multiplier = 3, stwindow = 101, window_size = 101):
     continuum = running_median(arr1, window_size)
     count = 0 #we set the count variable
     import numpy as np
@@ -186,7 +186,7 @@ def wormsearcher(arr1, min_count = 4, max_count = 60, threshold_multiplier = 3, 
     hits_start = []
     hits_end = []
     intermediate_count = 0
-    prohibited_wavelengths = list(range(179500, 179610)) + list(range(251821, 251900)) + list(range(210810, 210910)) + list(range(258200, 258312)) + list(range(141600, 141712)) + list(range(141800, 141912)) + list(range(211400, 211512))
+    prohibited_wavelengths = list(range(179500, 179610)) + list(range(251810, 251910)) + list(range(210810, 210910)) + list(range(258200, 258312)) + list(range(141600, 141712)) + list(range(141800, 141912)) + list(range(211400, 211512))  
     for i in range(50,len(continuum) - 50):
             if arr1[i] >= continuum[i - 50] + flux_threshold[i - 50]:
                   count += 1
@@ -198,25 +198,25 @@ def wormsearcher(arr1, min_count = 4, max_count = 60, threshold_multiplier = 3, 
                     # print("\n threshhold: ")
                     # print(continuum[(i-50):(i-50+count)]+flux_threshold[(i-50):(i-50+count)])
                     # print("\n")
-                    if i not in prohibited_wavelengths:
+                    if int(wave[i]) not in prohibited_wavelengths:
                         hits_start.append(i-count)
                         hits_end.append(i)
                         cosmic_ray_start = (i-count) - 5 #The algorithm is trained to search it's immediate 'neighborhood' of pixels, hence why we expand the
                         cosmic_ray_end = i + 5
                         peaky = arr1[cosmic_ray_start:cosmic_ray_end] - continuum[(cosmic_ray_start - 50):(cosmic_ray_end - 50)]
                         intermediate_count = 0
-                        top_threshold = (np.amax(peaky) * (0.7))
-                        bottom_threshold = (np.amax(peaky) * (0.25))
+                        top_threshold = (np.amax(peaky) * (0.7)) 
+                        bottom_threshold = (np.amax(peaky) * (0.25)) 
                         for j in range(0, len(peaky)):
                             if peaky[j] <= top_threshold  and peaky[j] >= bottom_threshold:
-                                intermediate_count += 1
-                count = 0            
+                                intermediate_count += 1 
+                count = 0             
     print(hits_start, hits_end)
     return hits_start, hits_end, count, intermediate_count
 
 
 
-def zoomout_spike_plotter(file, window_size = 101, stwindow = 101, threshold_multiplier = 5, spectral_start = 1000, spectral_end = 2000): #Where "spectral window" is
+def zoomout_spike_plotter(file, window_size = 101, stwindow = 101, threshold_multiplier = 5, spectral_start = 1000, spectral_end = 2000): #Where "spectral window" is 
     from matplotlib import pyplot as plt
     from astropy.io import fits
     fits_file = fits.open(file)
@@ -224,7 +224,7 @@ def zoomout_spike_plotter(file, window_size = 101, stwindow = 101, threshold_mul
     wave = spectral_data[0][0]
     arr1 = spectral_data[0][1]
     arr2 = spectral_data[0][2]
-    continuum = running_median(arr1,window_size)
+    continuum = running_median(arr1,window_size) 
     zoomoutstart_index = (spectral_start - 1000)
     zoomoutend_index = (spectral_end + 1000)
     threshold = continuum + np.array(running_standarddev(arr1, stwindow)) * threshold_multiplier
@@ -235,7 +235,7 @@ def zoomout_spike_plotter(file, window_size = 101, stwindow = 101, threshold_mul
     plt.plot(wave[zoominstart_index:zoominend_index], arr1[zoominstart_index:zoominend_index],'.-', wave[zoominstart_index:zoominend_index], continuum[(zoominstart_index - 50):(zoominend_index - 50)], wave[zoominstart_index:zoominend_index], threshold[(zoominstart_index - 50):(zoominend_index - 50)])
     plt.savefig(str(file[48:]) + "zoom_in" + ".png")
 
-def zoomin_spike_plotter(file, window_size = 101, stwindow = 101, threshold_multiplier = 5, spectral_start = 1000, spectral_end = 2000, cosmic_ray_multiplier = 0.5): #Where "spectral window" is
+def zoomin_spike_plotter(file, window_size = 101, stwindow = 101, threshold_multiplier = 5, spectral_start = 1000, spectral_end = 2000, cosmic_ray_multiplier = 0.5): #Where "spectral window" is 
     from matplotlib import pyplot as plt
     from astropy.io import fits
     fits_file = fits.open(file)
@@ -243,7 +243,7 @@ def zoomin_spike_plotter(file, window_size = 101, stwindow = 101, threshold_mult
     wave = spectral_data[0][0]
     arr1 = spectral_data[0][1]
     arr2 = spectral_data[0][2]
-    continuum = running_median(arr1,window_size)
+    continuum = running_median(arr1,window_size) 
     threshold = continuum + np.array(running_standarddev(arr1, stwindow)) * threshold_multiplier
     zoominstart_index = (spectral_start - 100)
     zoominend_index = (spectral_end + 100)
@@ -257,3 +257,11 @@ def doppler_detective(wavelength1, wavelength2):
         return(radial_velocity)
         print(str(radial_velocity) + "m/s")
 
+def doppler_broadening_calculator(fwhm, rest_wavelength):
+    import numpy as np
+    c = 2.99E8 #speed of light
+    k = 1.38E-23 #Boltzmann's constant
+    m = 1.67E-27 #mass of a hydrogen atom
+    T = (((c**2) * m)/(k)) * ((fwhm)**2)/(8*np.log(2)*(rest_wavelength ** 2)) 
+    return T
+    print(str(T) + "K")
