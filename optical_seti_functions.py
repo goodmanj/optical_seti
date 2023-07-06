@@ -146,27 +146,33 @@ def seti_spike_searcher(arr1, min_count = 5, max_count = 500, flux_threshold = 5
 #     print(hits_start, hits_end)
 #     return(hits_start, hits_end) 
 
-# JCG: The *actual* search routine?  Needs a *lot* of comments, explanation of arguments and so on.
-#
+# The main SETI search routine.
+# 
 # Input arguments:
-#   arr1: blah blah
-#   min_cont: blah blah
-#   max_count: blah blah
-
+#   arr1: spectral intensity
+#   min_cont: minimum number of bright pixels in a row to count as a spike
+#   max_count: maximum number of bright pixels in a row to count as a spike
+#   threshold_multiplier: how many standard deviations above median must pixel be to count as a spike
+#   cosmic_ray_threshold: unused
+#   stwindow: window size for standard deviation (must equal window_size)
+#   window_size: window size for median (must equal stwindow)
 def seti_spike_analyzer(arr1, min_count = 4, max_count = 8, threshold_multiplier = 3, cosmic_ray_threshold = 1.5, stwindow = 101, window_size = 101):
+    half_window_size = (window_size-1)/2
     continuum = running_median(arr1, window_size)
-    count = 0 #we set the count variable
+    count = 0 #reset bright pixel count variable
 #    import numpy as np # JCG: Not needed
     flux_threshold = np.array(running_standarddev(arr1, stwindow)) * (threshold_multiplier)
 #    cosmic_ray_threshold = np.array(running_standarddev(arr1, stwindow)) * (cosmic_ray_threshold) # JCG: Not used
-    hits_start = []
-    hits_end = []
+    hits_start = []  # List of starting wavelength indices for spikes
+    hits_end = []    # List of ending wavelength indices for spikes
+    # List of known airglow lines, this needs to be clearer
     prohibited_wavelengths = list(range(179450, 179650)) + list(range(251750, 251950)) + list(range(210750, 210950)) + list(range(258150, 258350)) + list(range(141550, 141750)) + list(range(141750, 141950)) + list(range(211350, 211550)) # JCG: This is damn ugly
+    # Loop over all wavelengths where "continuum" has been calculated.
     for i in range(50,len(continuum) - 50):
-            if arr1[i] >= continuum[i - 50] + flux_threshold[i - 50]:
-                  count += 1
-            else:
-                if (count >= min_count) and (count <= max_count):
+            if arr1[i] >= continuum[i - 50] + flux_threshold[i - 50]:  # If pixel is above threshold
+                  count += 1                                           # increment count
+            else:                                                      # if pixel falls below threshold
+                if (count >= min_count) and (count <= max_count):      # if spike isn't too wide or narrow
                     # JCG: Get rid of this
                     # print("Hit found.\n")
                     # print("arr1: ")
@@ -174,13 +180,16 @@ def seti_spike_analyzer(arr1, min_count = 4, max_count = 8, threshold_multiplier
                     # print("\n threshhold: ")
                     # print(continuum[(i-50):(i-50+count)]+flux_threshold[(i-50):(i-50+count)])
                     # print("\n")
-                    if i not in prohibited_wavelengths:
-                        hits_start.append(i-count)
+                    if i not in prohibited_wavelengths:                # if it's not in our list of airglow lines
+                        hits_start.append(i-count)                     # Add to the list of spikes found
                         hits_end.append(i)
                 count = 0
     print(hits_start, hits_end)
-    return hits_start, hits_end, count
-          
+    return hits_start, hits_end, count                                 # Return list of hits found, and number of hits
+
+# JCG: Is this being used? Appears only in "decision_tree.py"
+# This is a variant on seti_spike_analyzer that rules out spikes with sharp edges, calling them "cosmic rays".
+
 def wormhunter(arr1, min_count = 4, max_count = 60, threshold_multiplier = 3.5, stwindow = 101, window_size = 101):
     continuum = running_median(arr1, window_size)
     count = 0 #we set the count variable
@@ -219,6 +228,9 @@ def wormhunter(arr1, min_count = 4, max_count = 60, threshold_multiplier = 3.5, 
     print(hits_start, hits_end, intermediate_counts)
     return hits_start, hits_end, intermediate_counts
 
+# JCG: Is this being used? Appears only in "offline_analysis.py".  Appears broken.
+# This is a variant on seti_spike_analyzer and wormhunter that doesn't actually store hit locations.
+
 def wormsearcher(arr1, wave, min_count = 4, max_count = 60, threshold_multiplier = 3, stwindow = 101, window_size = 101):
     continuum = running_median(arr1, window_size)
     count = 0 #we set the count variable
@@ -255,7 +267,9 @@ def wormsearcher(arr1, wave, min_count = 4, max_count = 60, threshold_multiplier
     print(hits_start, hits_end)
     return hits_start, hits_end, count, intermediate_count
 
-
+# JCG: Plot spectral data with continuum and flux threshold lines.
+# Could easily be combined with zoomin_spike_plotter.
+# Not used in any other .py
 
 def zoomout_spike_plotter(file, window_size = 101, stwindow = 101, threshold_multiplier = 5, spectral_start = 1000, spectral_end = 2000): #Where "spectral window" is 
     from matplotlib import pyplot as plt
@@ -276,6 +290,10 @@ def zoomout_spike_plotter(file, window_size = 101, stwindow = 101, threshold_mul
     plt.plot(wave[zoominstart_index:zoominend_index], arr1[zoominstart_index:zoominend_index],'.-', wave[zoominstart_index:zoominend_index], continuum[(zoominstart_index - 50):(zoominend_index - 50)], wave[zoominstart_index:zoominend_index], threshold[(zoominstart_index - 50):(zoominend_index - 50)])
     plt.savefig(str(file[48:]) + "zoom_in" + ".png")
 
+# JCG: Plot spectral data with continuum and flux threshold lines.
+# Could easily be combined with zoomin_spike_plotter.
+# Not used in any other .py
+
 def zoomin_spike_plotter(file, window_size = 101, stwindow = 101, threshold_multiplier = 5, spectral_start = 1000, spectral_end = 2000, cosmic_ray_multiplier = 0.5): #Where "spectral window" is 
     from matplotlib import pyplot as plt
     from astropy.io import fits
@@ -291,6 +309,8 @@ def zoomin_spike_plotter(file, window_size = 101, stwindow = 101, threshold_mult
     plt.plot(wave[zoominstart_index:zoominend_index], arr1[zoominstart_index:zoominend_index],'.-', wave[zoominstart_index:zoominend_index], continuum[(zoominstart_index - 50):(zoominend_index - 50)], wave[zoominstart_index:zoominend_index], threshold[(zoominstart_index - 50):(zoominend_index - 50)])
     plt.savefig(str(file[48:]) + "zoom_in" + ".png")
 
+# Calculate relative velocity of doppler shifted wavelengths.
+# Not used in any .py
 def doppler_detective(wavelength1, wavelength2):
     if wavelength2 > wavelength1:
         doppler_velocity = ((wavelength2-wavelength1)/(wavelength1))*(2.99 * 10 ** 18) #Angstroms per second.
@@ -298,6 +318,9 @@ def doppler_detective(wavelength1, wavelength2):
         return(radial_velocity)
         print(str(radial_velocity) + "m/s")
 
+# Calculate themperature of thermal doppler broadened hydrogen line.
+# Used by gaussian_curve_fitting_algorithm.py
+# Remove or make general-purpose?
 def doppler_broadening_calculator(fwhm, rest_wavelength):
     import numpy as np
     c = 2.99E8 #speed of light
