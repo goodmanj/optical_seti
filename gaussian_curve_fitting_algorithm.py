@@ -1,3 +1,6 @@
+# Fit a Gaussian curve to a spectral line found at hits_start to hits_end, plot both, print the width of the Gaussian fit.
+# Needs cleanup and generalization
+
 import numpy as np
 import matplotlib.pyplot as plt
 
