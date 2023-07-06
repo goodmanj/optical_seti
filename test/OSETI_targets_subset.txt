@@ -1,0 +1,5 @@
+Target  ▾	RA	DEC	Sp. Type	T_eff [K]	B [mag]	V [mag]	G [mag]	Dist [pc]	Explore data	Data products (ascii)	Data products (csv)
+HD127423	14:32:24.5700	-37:49:02.488	G0V	5982.6	9.100	8.530	8.389	68.96	GLS Plot	HD127423_harps_all-data_v1.dat	HD127423_harps_all-data_v1.csv
+BD+053829	18:37:05.2146	+05:17:31.620	G5	4872.9	10.930	9.830	9.404	476.64	GLS Plot	BD+053829_harps_all-data_v1.dat	BD+053829_harps_all-data_v1.csv
+BD+053835	18:37:30.2983	+05:12:15.716	G5	4728.8	10.850	9.770	9.429	476.58	GLS Plot	BD+053835_harps_all-data_v1.dat	BD+053835_harps_all-data_v1.csv
+BD+072351	10:44:37.6008	+06:20:00.851	G5	5270.7	10.720	9.830	9.651	66.58	GLS Plot	BD+072351_harps_all-data_v1.dat	BD+072351_harps_all-data_v1.csv
