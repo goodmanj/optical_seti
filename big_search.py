@@ -17,8 +17,8 @@ def do_search(withlogin=eso_login,withstarlist=star_list,withresults=results):
     spectral_types = [x.split('\t')[3] for x in open(withstarlist).readlines()] 
     temperatures = [x.split('\t')[4] for x in open(withstarlist).readlines()] 
 
-    output = open(withresults, "a")
-    output.write("STAR,SPECTRAL TYPE,START INDEX,END INDEX,OBSERVATION FILE,START WAVELENGTH,END WAVELENGTH,HARPS OBJECT,TEMPERATURE") #add wavelength variable.
+    output = open(withresults, "w")
+    output.write("STAR,SPECTRAL TYPE,START INDEX,END INDEX,OBSERVATION FILE,START WAVELENGTH,END WAVELENGTH,HARPS OBJECT,TEMPERATURE\n") #add wavelength variable.
     for (star, spectral_type, temperature) in zip(target_list[1:], spectral_types[1:], temperatures[1:]):
         print(star)
         Eso.ROW_LIMIT = -1
