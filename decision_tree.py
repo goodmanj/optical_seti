@@ -1,3 +1,5 @@
+# Search through a list of stars and categorize them by total number of spikes.
+
 from astropy.io import fits
 from optical_seti_functions import wormhunter
 # import csv

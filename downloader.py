@@ -1,3 +1,6 @@
+# Download one spectrum from each of the targets listed in OSETI_survey1.txt, store in cache.
+# Should be integrated in with big_search.py
+
 from astroquery.eso import Eso
 from astropy.io import fits
 from optical_seti_functions import seti_spike_analyzer
