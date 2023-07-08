@@ -106,7 +106,7 @@ def read_harps_file(file):
     if not filepath.exists():
         filepath = eso_cache_path / file # Check for file in eso cache
         if not filepath.exists():
-            print("File "+file+" not found.")
+            print("File "+str(file)+" not found.")
             return [],[]
     fits_file = fits.open(filepath)
 
@@ -132,7 +132,7 @@ def read_harps_file(file):
 # Output arguments: 
 #   hits_start: list of indices of start of identified spikes
 #   hits_end: list of indices of end of identified spikes
-#   count: number of spikes found
+#   count: length of last hit
 
 def seti_spike_analyzer(arr1, min_count = 4, max_count = 8, threshold_multiplier = 3.5, window_size = 101):
     half_window_size = round((window_size-1)/2)
@@ -156,7 +156,7 @@ def seti_spike_analyzer(arr1, min_count = 4, max_count = 8, threshold_multiplier
                         hits_end.append(i)
                 count = 0
     print(hits_start, hits_end)
-    return hits_start, hits_end, count                                 # Return list of hits found, and number of hits
+    return hits_start, hits_end, count                                 # Return list of hits found, and length of last hit
 
 # ##### 4.  PLOTTING
 
@@ -165,14 +165,13 @@ def original_spectrum_plot(wave, arr1, index1, index2):
     plt.plot(wave[index1:index2], arr1[index1:index2], '.-')
 
 # JCG: Plot spectral data with continuum and flux threshold lines.
-# Could easily be combined with zoomin_spike_plotter.
-# Not used in any other .py
+# Save figures as png.
 #
-# file: HARPS spectrum filename
-# window_size: window size for running medians and stdev
-# threshold_multiplier: how many standard deviations above median to plot threshold line
-# center_index: Index of center of graph
-# graph_width: Width of graph (number of data points)
+# Input:
+#   file: HARPS spectrum filename
+#   window_size: window size for running medians and stdev
+#   threshold_multiplier: how many standard deviations above median to plot threshold line
+#   center_index: Index of center of graph
 
 def spike_plotter(file, window_size = 101, threshold_multiplier = 3.5, center_index = 1000): 
     wave, arr1 = read_harps_file(file)
@@ -190,7 +189,11 @@ def spike_plotter(file, window_size = 101, threshold_multiplier = 3.5, center_in
     plt.savefig(str(file[48:]) + "zoom_in" + ".png")
 
 # Fit a Gaussian curve to a spectral line found at hits_start to hits_end, plot both, return the width of the Gaussian fit.
-
+#
+# Inputs:
+#   file: file name to fit
+#   hits_start: starting index of best-guess peak location
+#   hits_end: ending index of best-guess peak location
 def gaussian_curve_fit(file,hits_start,hits_end):
     wave,arr1 = read_harps_file(file)
     windowpoint1 = hits_start - 100
