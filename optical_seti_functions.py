@@ -102,7 +102,14 @@ def running_standarddev_old(arr1, stwindow):
 #   arr1: spectral brightness data
 
 def read_harps_file(file):
-    fits_file = fits.open(file)
+    filepath = Path(file)    # Check for full path name
+    if not filepath.exists():
+        filepath = eso_cache_path / file # Check for file in eso cache
+        if not filepath.exists():
+            print("File "+file+" not found.")
+            return [],[]
+    fits_file = fits.open(filepath)
+
     spectral_data = fits_file[1].data
     wave = spectral_data[0][0]
     arr1 = spectral_data[0][1]
