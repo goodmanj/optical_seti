@@ -7,7 +7,7 @@ from astropy.io import fits
 import astropy.config
 import optical_seti_functions
 from pathlib import Path
-eso_cache_path = Path(astropy.config.get_cache_dir())
+eso_cache_path = Path(astropy.config.get_cache_dir()) / "astroquery" / "Eso"
 
 def do_search(withlogin=eso_login,withstarlist=star_list,withresults=results):
     eso = Eso()
@@ -25,7 +25,7 @@ def do_search(withlogin=eso_login,withstarlist=star_list,withresults=results):
         tbl = eso.query_surveys('HARPS', target= star,box=0.1)
         star_objects = tbl['Object'][:]
         arcfile = tbl['ARCFILE'][1:2]
-        cached_file = eso_cache_path / "astroquery" / "Eso" / (arcfile[0].replace(":","_")+".fits")
+        cached_file = eso_cache_path /  (arcfile[0].replace(":","_")+".fits")
         if (cached_file.exists()):
             print("Big_search using cached file " + str(cached_file))
             data_files = [cached_file]
