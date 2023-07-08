@@ -1,5 +1,4 @@
 import sys
-import os
 from pathlib import Path
 cwd = Path(__file__).parent.resolve() 
 

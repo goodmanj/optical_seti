@@ -39,7 +39,7 @@ def do_search(withlogin=eso_login,withstarlist=star_list,withresults=results):
             wave = spectral_data[0][0]
             arr1 = spectral_data[0][1]
             arr2 = spectral_data[0][2]
-            hits_start, hits_end, count  = optical_seti_functions.seti_spike_analyzer(arr1, min_count = 4, max_count = 60, threshold_multiplier = 3.5, cosmic_ray_threshold = 1.5, stwindow = 101, window_size = 101)
+            hits_start, hits_end, count  = optical_seti_functions.seti_spike_analyzer(arr1, min_count = 4, max_count = 60, threshold_multiplier = 3.5, window_size = 101)
             for (start, end) in zip(hits_start, hits_end):
                 wavelength_start = wave[start]
                 wavelength_end = wave[end]

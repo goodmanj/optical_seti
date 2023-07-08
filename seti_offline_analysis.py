@@ -1,3 +1,6 @@
+# Analyze pre-downloaded data.
+# Uses wormsearcher instead of seti_spike_analyzer
+
 from astropy.io import fits
 from optical_seti_functions import wormsearcher
 # import csv

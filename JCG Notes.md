@@ -2,6 +2,10 @@ Major questions:
 
 * What's the difference between big_search.py, seti_offline_analysis.py, and seti_algorithm_working_version.py?
 * Are decision_tree.py, rawframe_analyzer.py, raw_data_downloader.py being used?
+    -- decision_tree.py = no
+    -- rawframe_analyzer.py = no
+    -- raw_data_downloader.py = no
+
 * Which of these files can be consolidated?
 
 Files and their purposes:
@@ -49,11 +53,11 @@ Files and their purposes:
 
 * rawframe_analyzer.py
     -- Early version of harpscompare?
-    -- Not used?
+    -- Not used, deleted.
 
 * raw_data_downloader.py
     -- Download HARPS CCD data for files in "category2.txt"
-    -- Not used?  Unclear
+    -- Not used, deleted
 
 * raw_download_record.txt
     -- Files downloaded by raw_data_downloader.py
