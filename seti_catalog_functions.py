@@ -190,6 +190,8 @@ def bulk_predownload(withlogin=eso_login,withstarlist=star_list,withresults=pred
         tbl = eso.query_surveys('HARPS', target= star,box=0.1)   # Find all obs for that star
         if not (tbl):                                            # Go to next star if here are no obs
             continue
+        if len(tbl)<2:                                           # Go to next star if there's only one obs
+            continue
         harps_object = tbl['Object'][1:2][0]
         arcfiles = tbl['ARCFILE'][1:(obs_per_star+1)]            # Grab the first obs_per_star observations
         for i in range(len(arcfiles)):

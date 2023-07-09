@@ -70,3 +70,15 @@ These functions operate on entire catalogs of stars (CSV/TSV text files).
   Plot spectrum and CCD image file on the same figure. `countmin` and `countmax` are optional arguments describing the scale of the spectral graph and the color range of the CCD image.
 
         compare_spec_to_raw(specfilename,rawfilename,lamb,countmin,countmax)
+
+### `test/`
+
+Test scripts for major functions.  See the code here for usage examples and verification.
+
+### `OSETI_targets.txt`
+
+A list of 2800+ stars that have been observed by HARPS.  (Reference source URL?)
+
+### `harps_spectralpositioning.txt`
+
+Data file describing the position of the spectral orders of HARPS's echelle spectrograph on its CCD chips.  Used by `harpscompare.py`.  (Reference source URL?)
