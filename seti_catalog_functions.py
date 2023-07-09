@@ -20,7 +20,8 @@
 
 eso_login = "Spaceboy42"
 star_list = "OSETI_targets.txt"
-results = "onelineperhit.txt"
+results_list = "onelineperhit.txt"
+predownload_list = "multistarwidefield.txt"
 
 from astroquery.eso import Eso
 from astropy.io import fits
@@ -96,7 +97,7 @@ def download_one_obs(star,eso):
 #               assumes the star list is in the OSETI_targets.txt
 #               format.
 
-def do_search(withlogin=eso_login,withstarlist=star_list,withresults=results,categorize=False,predownloader_format=False):
+def do_search(withlogin=eso_login,withstarlist=star_list,withresults=results_list,categorize=False,predownloader_format=False):
     eso = Eso()
     eso.login(withlogin)
 
@@ -145,7 +146,7 @@ def do_search(withlogin=eso_login,withstarlist=star_list,withresults=results,cat
 #   withstarlist: filename of input list of stars to analyze.
 #   withresults: filename of output CSV list of filenames downloaded.
 
-def predownload(withlogin=eso_login,withstarlist=star_list,withresults="multistarwidefield.txt"):
+def predownload(withlogin=eso_login,withstarlist=star_list,withresults=predownload_list):
     eso = Eso()
     eso.login(withlogin)
     
@@ -170,7 +171,7 @@ def predownload(withlogin=eso_login,withstarlist=star_list,withresults="multista
 #   withresults: filename of output CSV list of filenames downloaded.
 #   obs_per_star: number of obs to retrieve for each star.
 
-def bulk_predownload(withlogin=eso_login,withstarlist=star_list,withresults="multistarwidefield.txt",obs_per_star=1):
+def bulk_predownload(withlogin=eso_login,withstarlist=star_list,withresults=predownload_list,obs_per_star=1):
     eso = Eso()
     eso.login(withlogin)
 
