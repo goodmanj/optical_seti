@@ -7,7 +7,7 @@
 # Functions to support Optical SETI searches using HARPS data.
 # HARPS: https://www.eso.org/sci/facilities/lasilla/instruments/harps.html
 #
-# These functions operate on entire catalogs of stars (CSV test files).
+# These functions operate on entire catalogs of stars (CSV text files).
 #
 # They assume you have an account at the ESO archive,
 # and have configured astroquery for automatic password entry.
@@ -100,6 +100,7 @@ def do_search(withlogin=eso_login,withstarlist=star_list,withresults=results,cat
     eso = Eso()
     eso.login(withlogin)
 
+    # Get key data from the input catalog
     target_list,spectral_types,data_files,harps_objects,temperatures,distances = parse_star_list(withstarlist,predownloader_format)
 
     # Create output file(s)
@@ -144,15 +145,63 @@ def do_search(withlogin=eso_login,withstarlist=star_list,withresults=results,cat
 #   withstarlist: filename of input list of stars to analyze.
 #   withresults: filename of output CSV list of filenames downloaded.
 
-def predownloader(withlogin=eso_login,withstarlist=star_list,withresults="multistarwidefield.txt"):
+def predownload(withlogin=eso_login,withstarlist=star_list,withresults="multistarwidefield.txt"):
     eso = Eso()
     eso.login(withlogin)
     
+    # Get key data from the input catalog
     target_list,spectral_types,data_files,harps_objects,temperatures,distances = parse_star_list(withstarlist,predownloader_format=False)
 
+    # Create output file
     output = open(withresults, "w")
     output.write("STAR,SPECTRAL TYPE,OBSERVATION FILE,HARPS OBJECT,TEMPERATURE,DISTANCES\n") 
     for (star, spectral_type, temperature, distance) in zip(target_list[1:], spectral_types[1:], temperatures[1:], distances[1:]):
         print(star)
         file,harps_object = download_one_obs(star,eso)
-        output.write("{},{},{},{},{},{}\n".format(star,spectral_type,file.name,harps_object,temperature, distance))
+        output.write("{},{},{},{},{},{}\n".format(star,spectral_type,Path(file).name,harps_object,temperature, distance))
+
+
+# predownloader: Predownload one or more spectra from each of the stars in the catalog.
+#   Group up files to download to reduce the number of requests we make to ESO servers.
+#
+# Inputs:
+#   withlogin: ESO archive login username.
+#   withstarlist: filename of input list of stars to analyze.
+#   withresults: filename of output CSV list of filenames downloaded.
+#   obs_per_star: number of obs to retrieve for each star.
+
+def bulk_predownload(withlogin=eso_login,withstarlist=star_list,withresults="multistarwidefield.txt",obs_per_star=1):
+    eso = Eso()
+    eso.login(withlogin)
+
+    download_queue = []         # list of files to download
+    download_queue_size = 20    # maximum number of files to queue up before starting download
+
+    # Get key data from the input catalog
+    target_list,spectral_types,data_files,harps_objects,temperatures,distances = parse_star_list(withstarlist,predownloader_format=False)
+
+    # Create output file
+    output = open(withresults, "w")
+    output.write("STAR,SPECTRAL TYPE,OBSERVATION FILE,HARPS OBJECT,TEMPERATURE,DISTANCES\n") 
+    # Loop over all stars in the input catalog
+    for (star, spectral_type, temperature, distance) in zip(target_list[1:], spectral_types[1:], temperatures[1:], distances[1:]):
+        print(star)
+        tbl = eso.query_surveys('HARPS', target= star,box=0.1)   # Find all obs for that star
+        if not (tbl):                                            # Go to next star if here are no obs
+            continue
+        harps_object = tbl['Object'][1:2][0]
+        arcfiles = tbl['ARCFILE'][1:(obs_per_star+1)]            # Grab the first obs_per_star observations
+        for i in range(len(arcfiles)):
+            cached_file = eso_cache_path /  (arcfiles[i].replace(":","_")+".fits")  # figure out name of local file
+            if not (cached_file.exists()):                       # If we don't have the file in cache
+                download_queue.append(arcfiles[i])               # Add it to the download queue and record it in output file
+            output.write("{},{},{},{},{},{}\n".format(star,spectral_type,cached_file.name,harps_object,temperature, distance))
+        if (len(download_queue) > download_queue_size):          # If the download queue is full
+            try:
+                eso.retrieve_data(download_queue)
+            except:                                             # Maybe login expired, relogin and try again
+                eso.login(withlogin)
+                eso.retrieve_data(download_queue)
+            download_queue = []                                 # Clear download queue
+    if (len(download_queue) > 0):
+        eso.retrieve_data(download_queue)
