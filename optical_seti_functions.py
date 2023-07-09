@@ -33,12 +33,12 @@ eso_cache_path = Path(astropy.config.get_cache_dir()) / "astroquery" / "Eso"
 
 # ##### 1.  STATISTICS FUNCTIONS
 
-# Calculate running median of x, using window size.
+# Calculate running median of data, using window size.
 # Output size is arr1 size - window_size
 # Use sliding window view for speed, see
 # https://numpy.org/devdocs/reference/generated/numpy.lib.stride_tricks.sliding_window_view.html
-def running_median(x, window_size):
-  return np.median(np.lib.stride_tricks.sliding_window_view(x,window_size),1)
+def running_median(data, window_size):
+  return np.median(np.lib.stride_tricks.sliding_window_view(data,window_size),1)
 
 # Calculate running median of arr1, using window size.
 # Uses a for loop instead of numpy tricks: much slower.  For testing only.
@@ -53,12 +53,12 @@ def running_median_old(arr1,window_size):
     return(running_median)
 
                   
-# Calculate running mean of x, using window size.
+# Calculate running mean of data, using window size.
 # Output size is arr1 size - window_size
 # Use sliding window view for speed, see
 # https://numpy.org/devdocs/reference/generated/numpy.lib.stride_tricks.sliding_window_view.html
-def running_mean(x, window_size):
-  return np.mean(np.lib.stride_tricks.sliding_window_view(x,window_size),1)
+def running_mean(data, window_size):
+  return np.mean(np.lib.stride_tricks.sliding_window_view(data,window_size),1)
 
 # Calculate running mean of arr1, using window size.
 # Uses a for loop instead of numpy tricks: much slower.  For testing only.
@@ -72,12 +72,12 @@ def running_mean_old(arr1, window_size):
         running_mean.append(np.mean(fluxes[start:end])) 
     return(running_mean)
 
-# Calculate running standard dev of x, using window size.
+# Calculate running standard dev of data, using window size.
 # Output size is arr1 size - window_size
 # Use sliding window view for speed, see
 # https://numpy.org/devdocs/reference/generated/numpy.lib.stride_tricks.sliding_window_view.html
-def running_standarddev(x, stwindow):
-   return np.std(np.lib.stride_tricks.sliding_window_view(x,stwindow),1)
+def running_standarddev(data, stwindow):
+   return np.std(np.lib.stride_tricks.sliding_window_view(data,stwindow),1)
 
 # Calculate running stdev of arr1, using window size.
 # Uses a for loop instead of numpy tricks: much slower.  For testing only.
@@ -164,7 +164,7 @@ def seti_spike_analyzer(arr1, min_count = 4, max_count = 8, threshold_multiplier
 def original_spectrum_plot(wave, arr1, index1, index2):
     plt.plot(wave[index1:index2], arr1[index1:index2], '.-')
 
-# JCG: Plot spectral data with continuum and flux threshold lines.
+# Plot spectral data with continuum and flux threshold lines.
 # Save figures as png.
 #
 # Input:

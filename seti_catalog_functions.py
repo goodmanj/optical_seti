@@ -162,7 +162,7 @@ def predownload(withlogin=eso_login,withstarlist=star_list,withresults=predownlo
         output.write("{},{},{},{},{},{}\n".format(star,spectral_type,Path(file).name,harps_object,temperature, distance))
 
 
-# predownloader: Predownload one or more spectra from each of the stars in the catalog.
+# bulk_predownloader: Predownload one or more spectra from each of the stars in the catalog.
 #   Group up files to download to reduce the number of requests we make to ESO servers.
 #
 # Inputs:
