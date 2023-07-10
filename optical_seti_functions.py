@@ -108,11 +108,11 @@ def read_harps_file(file):
         if not filepath.exists():
             print("File "+str(file)+" not found.")
             return [],[]
-    fits_file = fits.open(filepath)
 
-    spectral_data = fits_file[1].data
-    wave = spectral_data[0][0]
-    arr1 = spectral_data[0][1]
+    with fits.open(filepath) as fits_file:
+        spectral_data = fits_file[1].data
+        wave = spectral_data[0][0]
+        arr1 = spectral_data[0][1]
     return wave, arr1
 
 # ##### 3.  SEARCH ALGORITHM

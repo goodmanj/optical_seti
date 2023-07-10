@@ -76,10 +76,10 @@ def download_one_obs(star,eso):
     arcfile = tbl['ARCFILE'][1:2][0]
     cached_file = eso_cache_path /  (arcfile.replace(":","_")+".fits")
     if (cached_file.exists()):
-        print("do_search using cached file " + str(cached_file))
+        print("using cached file " + str(cached_file))
         file = cached_file
     else:
-        print("do_search downloading " + str(arcfile))
+        print("downloading " + str(arcfile))
         file = eso.retrieve_data(arcfile)
     return file,harps_object
 
@@ -124,6 +124,8 @@ def do_search(withlogin=eso_login,withstarlist=star_list,withresults=results_lis
         print(file.name)
         # Read in file data
         [wave,arr1] = optical_seti_functions.read_harps_file(file)
+        if len(arr1)==0:
+            continue
         # Perform SETI spike analysis
         hits_start, hits_end, count  = optical_seti_functions.seti_spike_analyzer(arr1, min_count = 4, max_count = 60, threshold_multiplier = 3.5, window_size = 101)
         # For each hit we found...
@@ -138,6 +140,11 @@ def do_search(withlogin=eso_login,withstarlist=star_list,withresults=results_lis
             else:
                 output_dest = output
             output_dest.write("{},{},{},{},{},{},{},{},{},{}\n".format(star, spectral_type, start, end, file.name, wavelength_start, wavelength_end, harps_object, temperature,distance))
+    if (categorize):
+        output_fewspikes.close()
+        output_manyspikes.close()
+    else:
+        output.close()
 
 # predownloader: Predownload one spectrum from each of the stars in the catalog.
 #
@@ -160,7 +167,7 @@ def predownload(withlogin=eso_login,withstarlist=star_list,withresults=predownlo
         print(star)
         file,harps_object = download_one_obs(star,eso)
         output.write("{},{},{},{},{},{}\n".format(star,spectral_type,Path(file).name,harps_object,temperature, distance))
-
+    output.close()
 
 # bulk_predownloader: Predownload one or more spectra from each of the stars in the catalog.
 #   Group up files to download to reduce the number of requests we make to ESO servers.
@@ -176,7 +183,7 @@ def bulk_predownload(withlogin=eso_login,withstarlist=star_list,withresults=pred
     eso.login(withlogin)
 
     download_queue = []         # list of files to download
-    download_queue_size = 20    # maximum number of files to queue up before starting download
+    download_queue_size = 40    # maximum number of files to queue up before starting download
 
     # Get key data from the input catalog
     target_list,spectral_types,data_files,harps_objects,temperatures,distances = parse_star_list(withstarlist,predownloader_format=False)
@@ -208,3 +215,4 @@ def bulk_predownload(withlogin=eso_login,withstarlist=star_list,withresults=pred
             download_queue = []                                 # Clear download queue
     if (len(download_queue) > 0):
         eso.retrieve_data(download_queue)
+    output.close()
