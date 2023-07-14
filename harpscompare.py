@@ -2,6 +2,8 @@
 # Benjamin Fields (fields_benjamin@wheatoncollege.edu)
 #
 # Author: Jason Goodman (goodman_jason@wheatoncollege.edu)
+#
+# Not called by any other .py
 
 import numpy as np
 import matplotlib.pyplot as plt
