@@ -71,9 +71,24 @@ These functions operate on entire catalogs of stars (CSV/TSV text files).
 
         compare_spec_to_raw(specfilename,rawfilename,lamb,countmin,countmax)
 
-### `test/`
 
-Test scripts for major functions.  See the code here for usage examples and verification.
+## Analysis Scripts
+
+  Jupyter notebooks intended for further analysis and hypothesis testing
+
+### `airglow-doppler-compare.ipynb`
+
+  Compares the wavelengths of our best OSETI candidates against a database of natural airglow lines from Hanuschik, 2003
+
+### `harpscompare-followup/jason-oseti-HD127423-repeats.ipynb`
+
+  Looks for peaks at the same wavelength as our HD127423 candidate for other stars oobserved on the same night, to test whether this signal is from a persistent a terrestrial source.
+
+### `jason-oseti-samenight-repeats.ipynb`
+  Looks for peaks at the same wavelength as all our final candidates from  other stars observed on the same night, to test whether these signals are from a persistent a terrestrial source.
+  
+
+## Data and Support Files
 
 ### `OSETI_targets.txt`
 
@@ -82,3 +97,13 @@ A list of 2800+ stars that have been observed by HARPS.  (Reference source URL?)
 ### `harps_spectralpositioning.txt`
 
 Data file describing the position of the spectral orders of HARPS's echelle spectrograph on its CCD chips.  Used by `harpscompare.py`.  (Reference source URL?)
+
+### `hanuschik_airglow.fits`
+
+Detailed airglow line database Hanuschik, 2003, "A flux-calibrated, high-resolution atlas of optical sky emission from UVES", doi:10.1051/0004-6361:20030885 downloaded from https://vizier.cds.unistra.fr/viz-bin/VizieR-2
+
+## Miscellaneous
+
+### `test/`
+
+Test scripts for major functions.  See the code here for usage examples and verification.
