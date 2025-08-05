@@ -86,7 +86,10 @@ These functions operate on entire catalogs of stars (CSV/TSV text files).
 
 ### `jason-oseti-samenight-repeats.ipynb`
   Looks for peaks at the same wavelength as all our final candidates from  other stars observed on the same night, to test whether these signals are from a persistent a terrestrial source.
-  
+
+### `manuscript-figures.ipynb`
+  Generates (most) of the figures used in the manuscript.
+
 
 ## Data and Support Files
 
