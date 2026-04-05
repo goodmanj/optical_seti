@@ -79,6 +79,9 @@ def running_mean_old(arr1, window_size):
 def running_standarddev(data, stwindow):
    return np.std(np.lib.stride_tricks.sliding_window_view(data,stwindow),1)
 
+def running_percentile(data, percentile,stwindow):
+   return np.percentile(np.lib.stride_tricks.sliding_window_view(data,stwindow),percentile,1)
+
 # Calculate running stdev of arr1, using window size.
 # Uses a for loop instead of numpy tricks: much slower.  For testing only.
 def running_standarddev_old(arr1, stwindow):
@@ -134,12 +137,15 @@ def read_harps_file(file):
 #   hits_end: list of indices of end of identified spikes
 #   count: length of last hit
 
-def seti_spike_analyzer(arr1, min_count = 4, max_count = 8, threshold_multiplier = 3.5, window_size = 101):
+def seti_spike_analyzer(arr1, min_count = 4, max_count = 8, threshold_multiplier = 3.5, window_size = 101,percentile=0):
     half_window_size = round((window_size-1)/2)
     continuum = running_median(arr1, window_size)
     count = 0 #reset bright pixel count variable
 #    import numpy as np # JCG: Not needed
-    flux_threshold = np.array(running_standarddev(arr1, window_size)) * (threshold_multiplier)
+    if (percentile>0):
+        flux_threshold = np.array(running_percentile(arr1, percentile,window_size)-continuum) * (threshold_multiplier)
+    else:
+        flux_threshold = np.array(running_standarddev(arr1, window_size)) * (threshold_multiplier)
 #    cosmic_ray_threshold = np.array(running_standarddev(arr1, stwindow)) * (cosmic_ray_threshold) # JCG: Not used
     hits_start = []  # List of starting wavelength indices for spikes
     hits_end = []    # List of ending wavelength indices for spikes
@@ -155,8 +161,9 @@ def seti_spike_analyzer(arr1, min_count = 4, max_count = 8, threshold_multiplier
                         hits_start.append(i-count)                     # Add to the list of spikes found
                         hits_end.append(i)
                 count = 0
-    print(hits_start, hits_end)
+    # print(hits_start, hits_end)
     return hits_start, hits_end, count                                 # Return list of hits found, and length of last hit
+
 
 # ##### 4.  PLOTTING
 
