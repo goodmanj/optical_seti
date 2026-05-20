@@ -24,7 +24,7 @@ from astropy.io import fits
 # curve fitting imports
 from astropy.modeling import models
 from astropy import units as u
-from specutils import Spectrum
+from specutils import Spectrum1D
 from specutils.fitting import fit_lines
 
 
@@ -203,7 +203,7 @@ def gaussian_curve_fit(wave,arr1,hits_start,hits_end):
     mean_guess = np.mean(wave[hits_start:hits_end])
     st_deviation_guess_wide = (wave[hits_end] - wave[hits_start]) * 2
     st_deviation_guess_narrow = (wave[hits_end] - wave[hits_start]) * 2
-    spectrum = Spectrum(flux=arr1[windowpoint1:windowpoint2]*u.dimensionless_unscaled, spectral_axis=wave[windowpoint1:windowpoint2]*u.AA)
+    spectrum = Spectrum1D(flux=arr1[windowpoint1:windowpoint2]*u.dimensionless_unscaled, spectral_axis=wave[windowpoint1:windowpoint2]*u.AA)
     g_init = models.Gaussian1D(amplitude=peak_guess*u.dimensionless_unscaled, mean=mean_guess*u.AA, stddev=st_deviation_guess_wide*u.AA) + models.Const1D(amplitude=0)
     g_fit = fit_lines(spectrum, g_init, window=(wave[windowpoint1]*u.AA, wave[windowpoint2]*u.AA))
     standard_deviation = g_fit[0].stddev.value
