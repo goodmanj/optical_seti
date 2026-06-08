@@ -35,7 +35,6 @@ harps_spectralpositioning_file = os.environ.get("HARPS_SPECPOS_FILE", _default_s
 # Download spectrum from ESO HARPS archive, given "Arcfile" name (leave out the ".fits")
 def download_spectrum(specfilearc, replace_underscores=True):
     eso = get_eso()
-    eso.login(username=eso_login)
     if replace_underscores:
         specfilearc = specfilearc.replace("_",":") # Replace underscores with colons
     specfilename = eso.retrieve_data(specfilearc)
