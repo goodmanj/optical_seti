@@ -4,6 +4,7 @@
 # Author: Jason Goodman (goodman_jason@wheatoncollege.edu)
 
 import os
+import subprocess
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.image import NonUniformImage
@@ -13,14 +14,27 @@ from pathlib import Path
 
 # Configure these lines for your local setup
 eso_login = "goodmanj"
+
+# Module-level ESO session — login happens once, then gets reused.
+_eso = None
+
+def get_eso():
+    """Return a logged-in Eso instance, creating and logging in only on the first call."""
+    global _eso
+    if _eso is None:
+        _eso = Eso()
+        _eso.login(username=eso_login)
+    return _eso
+
+
 # Path to spectral positioning file - update this for your local setup or set
 # the HARPS_SPECPOS_FILE environment variable to override.
 _default_specpos = os.path.join(os.path.dirname(os.path.abspath(__file__)), "harps_spectralpositioning.txt")
 harps_spectralpositioning_file = os.environ.get("HARPS_SPECPOS_FILE", _default_specpos)
 
 # Download spectrum from ESO HARPS archive, given "Arcfile" name (leave out the ".fits")
-def download_spectrum(specfilearc,replace_underscores=True):
-    eso = Eso()
+def download_spectrum(specfilearc, replace_underscores=True):
+    eso = get_eso()
     eso.login(username=eso_login)
     if replace_underscores:
         specfilearc = specfilearc.replace("_",":") # Replace underscores with colons
@@ -42,9 +56,7 @@ def download_associated_raw(specfilename,decompress=True):
 # Download raw image file, given its "Arcfile" name.
 # Set decompress=True to use the system's native uncompress command.
 def download_raw(rawfilearc, decompress=True):
-    import subprocess
-    eso = Eso()
-    eso.login(username=eso_login)
+    eso = get_eso()
     print("Downloading " + rawfilearc)
     rawfilename = eso.retrieve_data(rawfilearc, unzip=False)
     print(f"Downloaded: {rawfilename} ({os.path.getsize(rawfilename)} bytes)")
