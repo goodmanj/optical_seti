@@ -165,7 +165,6 @@ def compare_spec_to_raw(specfilename,rawfilename,lamb,lamb_range = [],
         # Doppler-shift CCD order wavelengths into star's reference frame (-berv)
         if (doppler_shift):
             berv = specfits[0].header['HIERARCH ESO DRS BERV']
-            print(berv)
             lam_start = doppler(lam_start,-berv)
             lam_end = doppler(lam_end,-berv)
             lam_mid = doppler(lam_mid,-berv)
