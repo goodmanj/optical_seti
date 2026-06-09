@@ -1,0 +1,83 @@
+def gaussian(x, amplitude, center, sigma):
+    """1D Gaussian function."""
+    return amplitude * np.exp(-0.5 * ((x - center) / sigma) ** 2)
+
+def fit_gaussian_to_spike(wavelengths, flux, wl_min, wl_max):
+    """
+    Fit a Gaussian to a spectral spike within a wavelength range and compute
+    the area under the fitted Gaussian.
+
+    Parameters
+    ----------
+    wavelengths : array-like
+        Full array of wavelength values.
+    flux : array-like
+        Full array of flux (or intensity) values corresponding to wavelengths.
+    wl_min : float
+        Lower bound of the wavelength range containing the spike.
+    wl_max : float
+        Upper bound of the wavelength range containing the spike.
+
+    Returns
+    -------
+    dict with keys:
+        'amplitude'  : float  – peak height of the Gaussian above baseline
+        'center'     : float  – central wavelength of the spike
+        'sigma'      : float  – standard deviation (width) of the Gaussian
+        'fwhm'       : float  – full-width at half-maximum (= 2.355 * sigma)
+        'area'       : float  – area under the Gaussian (= amplitude * sigma * sqrt(2π))
+        'perr'       : array  – 1-sigma uncertainties on [amplitude, center, sigma]
+        'wavelengths': array  – the clipped wavelength sub-array used for fitting
+        'fitted_flux': array  – the Gaussian evaluated over that sub-array
+    """
+    wavelengths = np.asarray(wavelengths, dtype=float)
+    flux = np.asarray(flux, dtype=float)
+
+    # --- Clip to the requested range ------------------------------------------
+    mask = (wavelengths >= wl_min) & (wavelengths <= wl_max)
+    if mask.sum() < 4:
+        raise ValueError(
+            f"Only {mask.sum()} data points found in [{wl_min}, {wl_max}]. "
+            "Provide a wider range or check your wavelength array."
+        )
+    wl_clip = wavelengths[mask]
+    fl_clip = flux[mask]
+
+    # --- Initial parameter guesses --------------------------------------------
+    amp0    = fl_clip.max() - fl_clip.min()          # peak above local minimum
+    cen0    = wl_clip[np.argmax(fl_clip)]             # wavelength of brightest point
+    sigma0  = (wl_max - wl_min) / 6.0                # rough 1-sigma width
+
+    p0 = [amp0, cen0, sigma0]
+
+    # Bounds: amplitude > 0, center within range, sigma > 0
+    lower = [0,      wl_min, 1e-10]
+    upper = [np.inf, wl_max, wl_max - wl_min]
+
+    # --- Fit ------------------------------------------------------------------
+    try:
+        popt, pcov = curve_fit(
+            gaussian, wl_clip, fl_clip,
+            p0=p0, bounds=(lower, upper),
+            maxfev=10_000
+        )
+    except RuntimeError as e:
+        raise RuntimeError(f"Gaussian fit did not converge: {e}") from e
+
+    amplitude, center, sigma = popt
+    perr = np.sqrt(np.diag(pcov))
+
+    # --- Area under the Gaussian (analytical) ---------------------------------
+    # ∫_{-∞}^{+∞} A * exp(-0.5*((x-μ)/σ)²) dx  =  A * σ * sqrt(2π)
+    area = amplitude * abs(sigma) * np.sqrt(2 * np.pi)
+
+    return {
+        "amplitude":   amplitude,
+        "center":      center,
+        "sigma":       abs(sigma),
+        "fwhm":        2.3548 * abs(sigma),
+        "area":        area,
+        "perr":        perr,
+        "wavelengths": wl_clip,
+        "fitted_flux": gaussian(wl_clip, *popt),
+    }
