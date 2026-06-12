@@ -3,6 +3,8 @@
 #
 # Author: Jason Goodman (goodman_jason@wheatoncollege.edu)
 
+import os
+import subprocess
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.image import NonUniformImage
@@ -12,12 +14,27 @@ from pathlib import Path
 
 # Configure these lines for your local setup
 eso_login = "goodmanj"
-opticalseti_lib_path = Path("C:/Users/goodm/OneDrive/Documents/optical_seti")
+
+# Module-level ESO session — login happens once, then gets reused.
+_eso = None
+
+def get_eso():
+    """Return a logged-in Eso instance, creating and logging in only on the first call."""
+    global _eso
+    if _eso is None:
+        _eso = Eso()
+        _eso.login(username=eso_login)
+    return _eso
+
+
+# Path to spectral positioning file - update this for your local setup or set
+# the HARPS_SPECPOS_FILE environment variable to override.
+_default_specpos = os.path.join(os.path.dirname(os.path.abspath(__file__)), "harps_spectralpositioning.txt")
+harps_spectralpositioning_file = os.environ.get("HARPS_SPECPOS_FILE", _default_specpos)
 
 # Download spectrum from ESO HARPS archive, given "Arcfile" name (leave out the ".fits")
-def download_spectrum(specfilearc,replace_underscores=True):
-    eso = Eso()
-    eso.login(eso_login)
+def download_spectrum(specfilearc, replace_underscores=True):
+    eso = get_eso()
     if replace_underscores:
         specfilearc = specfilearc.replace("_",":") # Replace underscores with colons
     specfilename = eso.retrieve_data(specfilearc)
@@ -35,33 +52,45 @@ def download_associated_raw(specfilename,decompress=True):
     specfits.close()
     return outfilename
 
-# Download raw image file, given its "Arcfile" name.  
-# Set decompress=true to use unlzw3 module to decompress (slow)
-def download_raw(rawfilearc,decompress=True):
-    import unlzw3
-    eso = Eso()
-    eso.login(eso_login)
-    print("Downloading "+rawfilearc)
-    rawfilename = eso.retrieve_data(rawfilearc,unzip=False)
-    print(rawfilename)
+# Download raw image file, given its "Arcfile" name.
+# Set decompress=True to use the system's native uncompress command.
+def download_raw(rawfilearc, decompress=True):
+    eso = get_eso()
+    print("Downloading " + rawfilearc)
+    result = eso.retrieve_data(rawfilearc, unzip=False)
+
+    # retrieve_data always returns a list; extract the single path.
+    if not result:
+        raise RuntimeError(f"Download failed for {rawfilearc}: retrieve_data returned an empty list")
+    rawfilename = Path(result[0])
+
     if decompress:
-        # Uncompress using unlzw3
-        uncompressedfilename = str(rawfilename)[:-2]
-        print("Uncompressing "+rawfilename+" to "+uncompressedfilename+"...")
-        fin = open(rawfilename,"rb")
-        fout = open(uncompressedfilename,"wb")
-        fout.write(unlzw3.unlzw(fin.read(-1)))
-        fout.close()
-        fin.close()
-        return uncompressedfilename
+        uncompressedfilename = rawfilename.with_suffix("")  # strip the trailing .Z
+        # If the .Z file is gone but the decompressed file already exists (e.g. from
+        # a previous run), skip decompression and return the existing file.
+        if not rawfilename.exists() and uncompressedfilename.exists():
+            print(f"Already decompressed: {uncompressedfilename}")
+            return str(uncompressedfilename)
+        print(f"Downloaded: {rawfilename} ({rawfilename.stat().st_size} bytes)")
+        print(f"Uncompressing {rawfilename} to {uncompressedfilename}...")
+        proc = subprocess.run(
+            ["uncompress", "-f", str(rawfilename)],
+            capture_output=True, text=True
+        )
+        if proc.returncode != 0:
+            raise RuntimeError(f"uncompress failed for {rawfilename}: {proc.stderr}")
+        return str(uncompressedfilename)
     else:
-        return rawfilename
+        return str(rawfilename)
 
 # Read spectral layout information (location of spectral orders on CCD chip and what wavelengths they correspond to)
-start_wavelength = [float(x.split('\t')[7]) for x in open(opticalseti_lib_path / "harps_spectralpositioning.txt").readlines()]
-end_wavelength = [float(x.split('\t')[8]) for x in open(opticalseti_lib_path / "harps_spectralpositioning.txt").readlines()]
-mid_wavelength = [float(x.split('\t')[1]) for x in open(opticalseti_lib_path / "harps_spectralpositioning.txt").readlines()]
-y_spectral_locations = [int(x.split('\t')[2]) for x in open(opticalseti_lib_path / "harps_spectralpositioning.txt").readlines()]
+# Column indices in harps_spectralpositioning.txt: 1=mid wavelength, 2=y pixel location,
+#   7=start wavelength, 8=end wavelength
+_specpos_lines = open(harps_spectralpositioning_file).readlines()
+start_wavelength = [float(x.split('\t')[7]) for x in _specpos_lines]
+end_wavelength = [float(x.split('\t')[8]) for x in _specpos_lines]
+mid_wavelength = [float(x.split('\t')[1]) for x in _specpos_lines]
+y_spectral_locations = [int(x.split('\t')[2]) for x in _specpos_lines]
 
 # Figure out which spectral order (where on the CCD) a given wavelength is.
 # lamb: wavelength in *nanometers*

@@ -24,7 +24,7 @@ from astropy.io import fits
 # curve fitting imports
 from astropy.modeling import models
 from astropy import units as u
-from specutils import Spectrum
+from specutils import Spectrum1D
 from specutils.fitting import fit_lines
 
 
@@ -78,6 +78,9 @@ def running_mean_old(arr1, window_size):
 # https://numpy.org/devdocs/reference/generated/numpy.lib.stride_tricks.sliding_window_view.html
 def running_standarddev(data, stwindow):
    return np.std(np.lib.stride_tricks.sliding_window_view(data,stwindow),1)
+
+def running_percentile(data, percentile,stwindow):
+   return np.percentile(np.lib.stride_tricks.sliding_window_view(data,stwindow),percentile,1)
 
 # Calculate running stdev of arr1, using window size.
 # Uses a for loop instead of numpy tricks: much slower.  For testing only.
@@ -134,12 +137,15 @@ def read_harps_file(file):
 #   hits_end: list of indices of end of identified spikes
 #   count: length of last hit
 
-def seti_spike_analyzer(arr1, min_count = 4, max_count = 8, threshold_multiplier = 3.5, window_size = 101):
+def seti_spike_analyzer(arr1, min_count = 4, max_count = 8, threshold_multiplier = 3.5, window_size = 101,percentile=0):
     half_window_size = round((window_size-1)/2)
     continuum = running_median(arr1, window_size)
     count = 0 #reset bright pixel count variable
 #    import numpy as np # JCG: Not needed
-    flux_threshold = np.array(running_standarddev(arr1, window_size)) * (threshold_multiplier)
+    if (percentile>0):
+        flux_threshold = np.array(running_percentile(arr1, percentile,window_size)-continuum) * (threshold_multiplier)
+    else:
+        flux_threshold = np.array(running_standarddev(arr1, window_size)) * (threshold_multiplier)
 #    cosmic_ray_threshold = np.array(running_standarddev(arr1, stwindow)) * (cosmic_ray_threshold) # JCG: Not used
     hits_start = []  # List of starting wavelength indices for spikes
     hits_end = []    # List of ending wavelength indices for spikes
@@ -155,8 +161,9 @@ def seti_spike_analyzer(arr1, min_count = 4, max_count = 8, threshold_multiplier
                         hits_start.append(i-count)                     # Add to the list of spikes found
                         hits_end.append(i)
                 count = 0
-    print(hits_start, hits_end)
+    # print(hits_start, hits_end)
     return hits_start, hits_end, count                                 # Return list of hits found, and length of last hit
+
 
 # ##### 4.  PLOTTING
 
@@ -188,16 +195,17 @@ def spike_plotter(file, window_size = 101, threshold_multiplier = 3.5, center_in
     plt.plot(x, arr1[start_index:end_index],'.-', x, continuum[(start_index - 50):(end_index - 50)], x, threshold[(start_index - 50):(end_index - 50)])
     plt.savefig(str(file[48:]) + "zoom_in" + ".png")
 
-def gaussian_curve_fit(wave,arr1,hits_start,hits_end):
+def gaussian_curve_fit(wave,arr1,hits_start,hits_end,plot=True):
     # wave,arr1 = read_harps_file(file)
     windowpoint1 = hits_start - 100
     windowpoint2 = hits_end + 100
     peak_guess = np.max(arr1[hits_start:hits_end]) #makes a highly "educated guess" for the fitted curve's peak by taking the actual maximum from the subtracted continuum
     mean_guess = np.mean(wave[hits_start:hits_end])
+    continuum_guess = np.mean(arr1[windowpoint1:windowpoint2])
     st_deviation_guess_wide = (wave[hits_end] - wave[hits_start]) * 2
     st_deviation_guess_narrow = (wave[hits_end] - wave[hits_start]) * 2
-    spectrum = Spectrum(flux=arr1[windowpoint1:windowpoint2]*u.dimensionless_unscaled, spectral_axis=wave[windowpoint1:windowpoint2]*u.AA)
-    g_init = models.Gaussian1D(amplitude=peak_guess*u.dimensionless_unscaled, mean=mean_guess*u.AA, stddev=st_deviation_guess_wide*u.AA) + models.Const1D(amplitude=0)
+    spectrum = Spectrum1D(flux=arr1[windowpoint1:windowpoint2]*u.dimensionless_unscaled, spectral_axis=wave[windowpoint1:windowpoint2]*u.AA)
+    g_init = models.Gaussian1D(amplitude=peak_guess*u.dimensionless_unscaled, mean=mean_guess*u.AA, stddev=st_deviation_guess_wide*u.AA) + models.Const1D(amplitude=continuum_guess)
     g_fit = fit_lines(spectrum, g_init, window=(wave[windowpoint1]*u.AA, wave[windowpoint2]*u.AA))
     standard_deviation = g_fit[0].stddev.value
     if standard_deviation < 1e-12: # Didn't find peak, try a narrower guess
@@ -206,12 +214,13 @@ def gaussian_curve_fit(wave,arr1,hits_start,hits_end):
         standard_deviation= g_fit.stddev.value
     fwhm = standard_deviation * 2.35
     y_fit = g_fit(wave[windowpoint1:windowpoint2]*u.AA)
-    plt.plot(spectrum.spectral_axis, spectrum.flux) 
-    plt.plot(wave[windowpoint1:windowpoint2], y_fit)
-    print(fwhm) 
+    if (plot):
+        plt.plot(spectrum.spectral_axis, spectrum.flux) 
+        plt.plot(wave[windowpoint1:windowpoint2], y_fit)
+        print(fwhm) 
+        plt.show()
     #Cosmic ray hits_start: 4082, green auroral emission line: 179487, 179487
     #GJ551 HITS_STARTS: 13812, 39670 (something's odd), 43403, 45101, 59377, 64514, 67948, 76729, 80165
-    plt.show()
     return fwhm 
 
 # Fit a Gaussian curve to a spectral line found at hits_start to hits_end, plot both, return the width of the Gaussian fit.
