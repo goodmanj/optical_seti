@@ -149,9 +149,6 @@ def compare_spec_to_raw(specfilename,rawfilename,lamb,lamb_range = [],
     if (spec_countmin==-1):
         spec_countmin = np.mean(arr1)-2*np.std(arr1)  # Try to make plot axis limits reasonable based on range of data
         spec_countmax = np.mean(arr1)+6*np.std(arr1)
-    if (raw_countmin==-1):
-        raw_countmin = spec_countmin
-        raw_countmax = spec_countmax
     plt.plot(wave,arr1)
     plt.plot([lamb*10, lamb*10],[spec_countmin, spec_countmax],':')  # Plot a dotted line showing the location of our spike
 #    plt.xlim(lam_start*10+1,lam_end*10)  # nanometers to angstroms
@@ -170,6 +167,10 @@ def compare_spec_to_raw(specfilename,rawfilename,lamb,lamb_range = [],
             lam_mid = doppler(lam_mid,-berv)
         im = rawfits[ccd].data
         rows,cols = im.shape
+        if (raw_countmin==-1):
+            raw_countmin = np.percentile(im[:,starty:endy],20)
+            raw_countmax = np.percentile(im[:,starty:endy],99.5)
+            print(f"{raw_countmin},{raw_countmax}")
         plt.subplot(n_orders+1,1,order+2,sharex=specax) # All panels zoom together
         # CCD data not regullarly spaced: fit CCD wavelength data to a 2nd-degree polynomioal and do a nonuniform image
         y = np.linspace(1,cols,cols)
@@ -177,7 +178,7 @@ def compare_spec_to_raw(specfilename,rawfilename,lamb,lamb_range = [],
         lam_pix,lam_grid = p.linspace(n=4096)
         dispim = NonUniformImage(plt.gca())    
         dispim.set_data(lam_grid, y, np.flip(im.transpose(),axis=1))
-        dispim.set_clim(vmin=raw_countmin+np.min(im),vmax=raw_countmax+np.min(im))
+        dispim.set_clim(vmin=raw_countmin,vmax=raw_countmax)
         plt.gca().add_image(dispim)
         plt.gca().invert_yaxis()  # Higher orders up
         plt.ylim(starty,endy)
