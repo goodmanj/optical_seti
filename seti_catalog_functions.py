@@ -71,7 +71,7 @@ def parse_star_list(withstarlist=star_list,predownloader_format=False):
 #   harps_object: HARPS's name for the object
 
 def download_one_obs(star,eso):
-    tbl = eso.query_surveys('HARPS', target= star,box=0.1)
+    tbl = eso.query_surveys(surveys='HARPS', target=star,box=0.1)
     harps_object = tbl['Object'][1:2][0]
     arcfile = tbl['ARCFILE'][1:2][0]
     cached_file = eso_cache_path /  (arcfile.replace(":","_")+".fits")
