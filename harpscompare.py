@@ -53,7 +53,7 @@ def download_associated_raw(specfilename,decompress=True):
     return outfilename
 
 # Download raw image file, given its "Arcfile" name.
-# Set decompress=True to use the system's native uncompress command.
+# Set decompress=True to use unlzw3 to uncompress the files.
 def download_raw(rawfilearc, decompress=True):
     eso = get_eso()
     print("Downloading " + rawfilearc)
@@ -125,7 +125,7 @@ def doppler(wave,v):
 # spec_countmin, spec_countmax: minimum and maximum range of spectral plot.  Optional: if left blank or set to -1,
 #   "reasonable" values will be autoselected.
 # raw_countmin, raw_countmax: minimum and maximum range of ccd image.  Optional: if left blank or set to -1,
-#   will use the same range as spec_countmin, spec_countmax above.
+#   will use "reasonable" percentile-based color scaling.
 # multi_order: plot both spectral orders from the raw image that include the wavelength, if possible
 # doppler_shift: doppler-shift CCD image wavelengths to stellar frame
 
@@ -137,7 +137,7 @@ def compare_spec_to_raw(specfilename,rawfilename,lamb,lamb_range = [],
     rawfits = fits.open(rawfilename)
     wave = specfits[1].data[0][0]
     arr1 = specfits[1].data[0][1]
-    # Find the spectral order for the desired wavelength so we can look at the right part of the CCD
+    # Find the spectral order(s) for the desired wavelength so we can look at the right part of the CCD.  There may be one or two.
     order_info = find_order(lamb,order_shift)
     n_orders = len(order_info) # Number of orders in which this wavelength appears
     if not multi_order:
@@ -151,7 +151,6 @@ def compare_spec_to_raw(specfilename,rawfilename,lamb,lamb_range = [],
         spec_countmax = np.mean(arr1)+6*np.std(arr1)
     plt.plot(wave,arr1)
     plt.plot([lamb*10, lamb*10],[spec_countmin, spec_countmax],':')  # Plot a dotted line showing the location of our spike
-#    plt.xlim(lam_start*10+1,lam_end*10)  # nanometers to angstroms
     plt.ylim([spec_countmin,spec_countmax]) 
     plt.title(specfits[0].header['ARCFILE'])
     specax = plt.gca()
@@ -168,9 +167,9 @@ def compare_spec_to_raw(specfilename,rawfilename,lamb,lamb_range = [],
         im = rawfits[ccd].data
         rows,cols = im.shape
         if (raw_countmin==-1):
+            # Set image color scale limits based on percentiles.
             raw_countmin = np.percentile(im[:,starty:endy],20)
-            raw_countmax = np.percentile(im[:,starty:endy],99.5)
-            print(f"{raw_countmin},{raw_countmax}")
+            raw_countmax = np.percentile(im[:,starty:endy],99)
         plt.subplot(n_orders+1,1,order+2,sharex=specax) # All panels zoom together
         # CCD data not regullarly spaced: fit CCD wavelength data to a 2nd-degree polynomioal and do a nonuniform image
         y = np.linspace(1,cols,cols)
