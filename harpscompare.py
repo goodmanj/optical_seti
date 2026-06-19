@@ -4,7 +4,7 @@
 # Author: Jason Goodman (goodman_jason@wheatoncollege.edu)
 
 import os
-import subprocess
+import unlzw3
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.image import NonUniformImage
@@ -53,32 +53,38 @@ def download_associated_raw(specfilename,decompress=True):
     return outfilename
 
 # Download raw image file, given its "Arcfile" name.
-# Set decompress=True to use the system's native uncompress command.
+# Set decompress=True to use unlzw3 to uncompress the files.
 def download_raw(rawfilearc, decompress=True):
     eso = get_eso()
     print("Downloading " + rawfilearc)
     result = eso.retrieve_data(rawfilearc, unzip=False)
 
-    # retrieve_data always returns a list; extract the single path.
     if not result:
         raise RuntimeError(f"Download failed for {rawfilearc}: retrieve_data returned an empty list")
-    rawfilename = Path(result[0])
+
+    # If retrieve_data returned a list, extract the single path.
+    if isinstance(result,list):
+        rawfilename = Path(result[0])
+    elif isinstance(result,str):
+        rawfilename = Path(result)
+    else:
+        raise RuntimeError(f"Unrecognized response for {rawfilearc}: {result}")
 
     if decompress:
-        uncompressedfilename = rawfilename.with_suffix("")  # strip the trailing .Z
+        uncompressedfilename = rawfilename.with_suffix("")
         # If the .Z file is gone but the decompressed file already exists (e.g. from
         # a previous run), skip decompression and return the existing file.
         if not rawfilename.exists() and uncompressedfilename.exists():
             print(f"Already decompressed: {uncompressedfilename}")
             return str(uncompressedfilename)
-        print(f"Downloaded: {rawfilename} ({rawfilename.stat().st_size} bytes)")
+        print(f"Downloaded: {rawfilename}")
         print(f"Uncompressing {rawfilename} to {uncompressedfilename}...")
-        proc = subprocess.run(
-            ["uncompress", "-f", str(rawfilename)],
-            capture_output=True, text=True
-        )
-        if proc.returncode != 0:
-            raise RuntimeError(f"uncompress failed for {rawfilename}: {proc.stderr}")
+        # Uncompress using unlzw3 for cross-platform compatibility
+        fin = open(rawfilename,"rb")
+        fout = open(uncompressedfilename,"wb")
+        fout.write(unlzw3.unlzw(fin.read(-1)))
+        fout.close()
+        fin.close()
         return str(uncompressedfilename)
     else:
         return str(rawfilename)
@@ -92,21 +98,24 @@ end_wavelength = [float(x.split('\t')[8]) for x in _specpos_lines]
 mid_wavelength = [float(x.split('\t')[1]) for x in _specpos_lines]
 y_spectral_locations = [int(x.split('\t')[2]) for x in _specpos_lines]
 
-# Figure out which spectral order (where on the CCD) a given wavelength is.
+# Figure out which spectral orders (where on the CCD) a given wavelength is.
 # lamb: wavelength in *nanometers*
 # optional order_shift: Offset the calculated spectral order (integer)
 def find_order(lamb,order_shift=0):  # lamb in nanometers
-    # Scan through wavelength list, find the index of the first start/end pair that straddles lamb[0][0]
-    ix = np.where([lamb > start and lamb < end for (start,end) in zip(start_wavelength,end_wavelength)])[0][0] + order_shift
     if (lamb < 531): # Use "Linda", fits image #1
         ccd=1
-        starty = y_spectral_locations[ix]  # Orders are offset from what's claimed on 
-        endy = y_spectral_locations[ix]+100   # https://www.eso.org/sci/facilities/lasilla/instruments/harps/inst/spec_form.html.
     else: # use "Jasmin", fits image #2
         ccd=2
-        starty = y_spectral_locations[ix]  # Different offsets for the two chips
-        endy = y_spectral_locations[ix]+100        
-    return(ccd,starty,endy, start_wavelength[ix],end_wavelength[ix],mid_wavelength[ix])
+    # Scan through wavelength list, find the index of the first start/end pair that straddles lamb[0][0]
+    ixes = np.where([lamb > start and lamb < end for (start,end) in zip(start_wavelength,end_wavelength)])[0] + order_shift
+    order_data = [(ccd,y_spectral_locations[ix],y_spectral_locations[ix]+100,start_wavelength[ix],end_wavelength[ix],mid_wavelength[ix]) for ix in ixes]
+    return order_data
+
+# Doppler shift function
+def doppler(wave,v):
+    c = 2.998e5 # km/s
+    beta = v/c
+    return wave*np.sqrt((1-beta)/(1+beta))
 
 # Plot spectrum and CCD image file on the same figure.  Plots one full spectral order containing a given wavelength.
 # specfilename: file name of downloaded HARPS spectrum file
@@ -116,50 +125,70 @@ def find_order(lamb,order_shift=0):  # lamb in nanometers
 # spec_countmin, spec_countmax: minimum and maximum range of spectral plot.  Optional: if left blank or set to -1,
 #   "reasonable" values will be autoselected.
 # raw_countmin, raw_countmax: minimum and maximum range of ccd image.  Optional: if left blank or set to -1,
-#   will use the same range as spec_countmin, spec_countmax above.
+#   will use "reasonable" percentile-based color scaling.
+# multi_order: plot both spectral orders from the raw image that include the wavelength, if possible
+# doppler_shift: doppler-shift CCD image wavelengths to stellar frame
+
 def compare_spec_to_raw(specfilename,rawfilename,lamb,lamb_range = [],
                         spec_countmin=-1,spec_countmax=-1,raw_countmin=-1,raw_countmax=-1,
-                        order_shift=0):
+                        order_shift=0,multi_order=False,doppler_shift=False):
     # Open spectral and raw image files
     specfits = fits.open(specfilename)
     rawfits = fits.open(rawfilename)
     wave = specfits[1].data[0][0]
     arr1 = specfits[1].data[0][1]
-    # Find the spectral order for the desired wavelength so we can look at the right part of the CCD
-    (ccd,starty,endy,lam_start,lam_end,lam_mid) = find_order(lamb,order_shift)
-    im = rawfits[ccd].data
-    # Subplot: Upper panel shows spectrum, lower panel shows CCD image
-    plt.subplot(2,1,1)
+    # Find the spectral order(s) for the desired wavelength so we can look at the right part of the CCD.  There may be one or two.
+    order_info = find_order(lamb,order_shift)
+    n_orders = len(order_info) # Number of orders in which this wavelength appears
+    if not multi_order:
+        n_orders = 1           # Only show the first order
+
+    # Subplot: Upper panel shows spectrum, lower panel(s) show CCD image
+    # Show spectrum
+    plt.subplot(n_orders+1,1,1)
     if (spec_countmin==-1):
         spec_countmin = np.mean(arr1)-2*np.std(arr1)  # Try to make plot axis limits reasonable based on range of data
         spec_countmax = np.mean(arr1)+6*np.std(arr1)
-    if (raw_countmin==-1):
-        raw_countmin = spec_countmin
-        raw_countmax = spec_countmax
     plt.plot(wave,arr1)
     plt.plot([lamb*10, lamb*10],[spec_countmin, spec_countmax],':')  # Plot a dotted line showing the location of our spike
-    plt.xlim(lam_start*10+1,lam_end*10)  # nanometers to angstroms
     plt.ylim([spec_countmin,spec_countmax]) 
     plt.title(specfits[0].header['ARCFILE'])
     specax = plt.gca()
-    plt.subplot(2,1,2,sharex=specax) # Upper and lower panel zoom together
-    rows,cols = im.shape
-    # CCD data not regullarly spaced: fit CCD wavelength data to a 2nd-degree polynomioal and do a nonuniform image
-    y = np.linspace(1,cols,cols)
-    p = np.polynomial.Polynomial.fit([1,4096/2,4096],[lam_start*10,lam_mid*10,lam_end*10],2)
-    lam_pix,lam_grid = p.linspace(n=4096)
-    dispim = NonUniformImage(plt.gca())    
-    dispim.set_data(lam_grid, y, np.flip(im.transpose(),axis=1))
-    dispim.set_clim(vmin=raw_countmin+np.min(im),vmax=raw_countmax+np.min(im))
-    plt.gca().add_image(dispim)
-    plt.gca().invert_yaxis()  # Higher orders up
-    plt.ylim(starty,endy)
-    if (lamb_range):
-        plt.xlim(lamb_range[0]*10,lamb_range[1]*10)
-    else:
-        plt.xlim(lam_start*10,lam_end*10)
-    plt.title(Path(rawfilename).name)
-    plt.xlabel("Wavelength (Angstroms)")
+
+    # Show raw image(s)
+    for order in range(n_orders):
+        (ccd,starty,endy,lam_start,lam_end,lam_mid) = order_info[order]
+        # Doppler-shift CCD order wavelengths into star's reference frame (-berv)
+        if (doppler_shift):
+            berv = specfits[0].header['HIERARCH ESO DRS BERV']
+            lam_start = doppler(lam_start,-berv)
+            lam_end = doppler(lam_end,-berv)
+            lam_mid = doppler(lam_mid,-berv)
+        im = rawfits[ccd].data
+        rows,cols = im.shape
+        if (raw_countmin==-1):
+            # Set image color scale limits based on percentiles.
+            raw_countmin = np.percentile(im[:,starty:endy],20)
+            raw_countmax = np.percentile(im[:,starty:endy],99)
+        plt.subplot(n_orders+1,1,order+2,sharex=specax) # All panels zoom together
+        # CCD data not regullarly spaced: fit CCD wavelength data to a 2nd-degree polynomioal and do a nonuniform image
+        y = np.linspace(1,cols,cols)
+        p = np.polynomial.Polynomial.fit([1,4096/2,4096],[lam_start*10,lam_mid*10,lam_end*10],2)
+        lam_pix,lam_grid = p.linspace(n=4096)
+        dispim = NonUniformImage(plt.gca())    
+        dispim.set_data(lam_grid, y, np.flip(im.transpose(),axis=1))
+        dispim.set_clim(vmin=raw_countmin,vmax=raw_countmax)
+        plt.gca().add_image(dispim)
+        plt.gca().invert_yaxis()  # Higher orders up
+        plt.ylim(starty,endy)
+        if (lamb_range):
+            plt.xlim(lamb_range[0]*10,lamb_range[1]*10)
+        else:
+            plt.xlim(lam_start*10,lam_end*10)
+        plt.title(Path(rawfilename).name)
+        if (order == n_orders-1):
+            plt.xlabel("Wavelength (Angstroms)")
+    plt.subplots_adjust(hspace=0.5)
     plt.show()
     
 
@@ -167,7 +196,7 @@ def plot_raw_image(specfilename,rawfilename,lamb,lamb_range = [],countmin=-1,cou
     specfits = fits.open(specfilename)
     rawfits = fits.open(rawfilename)
     arr1 = specfits[1].data[0][1]
-    (ccd,starty,endy,lam_start,lam_end,lam_mid) = find_order(lamb)
+    (ccd,starty,endy,lam_start,lam_end,lam_mid) = find_order(lamb)[0]
     if (countmin==-1):
         countmin = np.mean(arr1)-2*np.std(arr1)  # Try to make plot axis limits reasonable based on range of data
         countmax = np.mean(arr1)+6*np.std(arr1)
