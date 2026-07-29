@@ -1,0 +1,11 @@
+GJ1057,M4.5Ve,8.6,58264,58269,/Users/blfields/.astropy/cache/astroquery/Eso/ADP.2014-09-29T13:27:15.887.fits,/Users/blfields/.astropy/cache/astroquery/Eso/HARPS.2003-12-13T03:31:51.000.fits,4363.99,4364.04,E
+GJ1057,M4.5Ve,8.6,197280,197286,/Users/blfields/.astropy/cache/astroquery/Eso/ADP.2014-09-29T13:27:15.887.fits,/Users/blfields/.astropy/cache/astroquery/Eso/HARPS.2003-12-13T03:31:51.000.fits,5754.15,5754.21,E
+GJ1057,M4.5Ve,8.6,221777,221784,/Users/blfields/.astropy/cache/astroquery/Eso/ADP.2014-09-29T13:27:15.887.fits,/Users/blfields/.astropy/cache/astroquery/Eso/HARPS.2003-12-13T03:31:51.000.fits,5999.12,5999.1900000000005,E
+GJ1065,M3V,9.9,118755,118759,/Users/blfields/.astropy/cache/astroquery/Eso/ADP.2014-09-29T13:27:04.900.fits,/Users/blfields/.astropy/cache/astroquery/Eso/HARPS.2003-12-13T04:23:18.822.fits,4968.96,4969.0,E
+GJ1065,M3V,9.9,186789,186795,/Users/blfields/.astropy/cache/astroquery/Eso/ADP.2014-09-29T13:27:04.900.fits,/Users/blfields/.astropy/cache/astroquery/Eso/HARPS.2003-12-13T04:23:18.822.fits,5649.3,5649.36,E
+GJ12,M4V,12.2,43282,43286,/Users/blfields/.astropy/cache/astroquery/Eso/ADP.2014-09-29T13:27:19.893.fits,/Users/blfields/.astropy/cache/astroquery/Eso/HARPS.2003-12-14T02:00:09.766.fits,4214.01,4214.05,E
+GJ3189,sdM3.0,11.5,156234,156239,/Users/blfields/.astropy/cache/astroquery/Eso/ADP.2014-09-29T13:27:07.783.fits,/Users/blfields/.astropy/cache/astroquery/Eso/HARPS.2003-12-15T04:02:18.430.fits,5343.68,5343.7300000000005,E
+HD184552,A1mA2-F0,82.4,283145,283149,/Users/blfields/.astropy/cache/astroquery/Eso/ADP.2014-09-26T16:52:30.090.fits,/Users/blfields/.astropy/cache/astroquery/Eso/HARPS.2012-07-03T09:20:51.568.fits,6613.0,6613.040000000001,E
+HD222422,G5V,26.2,198787,198791,/Users/blfields/.astropy/cache/astroquery/Eso/ADP.2014-09-29T13:27:21.830.fits,/Users/blfields/.astropy/cache/astroquery/Eso/HARPS.2003-10-28T02:40:13.868.fits,5769.150000000001,5769.1900000000005,E
+HD9782,F9V,37.9,226696,226700,/Users/blfields/.astropy/cache/astroquery/Eso/ADP.2014-09-29T13:27:00.840.fits,/Users/blfields/.astropy/cache/astroquery/Eso/HARPS.2003-11-05T04:20:45.284.fits,6048.360000000001,6048.4,E
+WASP-17,F4,410.4,142982,142986,/Users/blfields/.astropy/cache/astroquery/Eso/ADP.2014-09-24T09:43:02.047.fits,/Users/blfields/.astropy/cache/astroquery/Eso/HARPS.2010-03-22T04:23:04.374.fits,5211.65,5211.6900000000005,E
