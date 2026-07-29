@@ -1,3 +1,5 @@
+# Generate a figure showing the location of Tier IV OSETI repeater candidates for each star.
+
 from pathlib import Path
 import astropy.table
 from matplotlib import pyplot as plt

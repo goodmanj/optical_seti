@@ -102,6 +102,7 @@ A list of 2800+ stars that have been observed by HARPS.  (Reference source URL?)
 Data file describing the position of the spectral orders of HARPS's echelle spectrograph on its CCD chips.  Used by `harpscompare.py`.  (Reference source URL?)
 
 ### `hanuschik_airglow.fits`
+### `airglow_table_comma_delimited.txt`
 
 Detailed airglow line database Hanuschik, 2003, "A flux-calibrated, high-resolution atlas of optical sky emission from UVES", doi:10.1051/0004-6361:20030885 downloaded from https://vizier.cds.unistra.fr/viz-bin/VizieR-2
 

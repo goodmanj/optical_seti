@@ -1,3 +1,5 @@
+# Primary automated search code.
+
 from astropy.io import fits
 from optical_seti_functions import seti_spike_analyzer, airglow_elimination
 spectral_types = ([x.split(",")[1] for x in open("/Users/blfields/Desktop/LaserInjector/bigsearchstage1.txt").readlines()])

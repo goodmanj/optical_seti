@@ -1,3 +1,7 @@
+# Search for HARPS observations of other stars made within a 2-hour window of the target observation.  
+# Plot the spectra in the terrestrial reference frame and in the star's reference frame to see if 
+# any shared peaks align in the stellar or terrestrial frame.
+
 from astroquery.eso import Eso
 eso = Eso()
 from pathlib import Path

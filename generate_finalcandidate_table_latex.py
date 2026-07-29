@@ -1,3 +1,5 @@
+# Generate lists of OSETI candidates in LaTeX table format for inclusion in manuscript.
+
 from pathlib import Path
 import astropy.table
 

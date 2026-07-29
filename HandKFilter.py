@@ -1,3 +1,6 @@
+# Look for Ca-II H and K lines (3933 and 3968 angstroms)
+# in a list of OSETI candidates.  Shift into the star's reference frame to do the comparison.
+
 from astropy.io import fits
 from harpscompare import doppler
 import numpy as np
