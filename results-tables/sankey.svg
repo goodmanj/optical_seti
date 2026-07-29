@@ -1,0 +1,1236 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   height="662.62531"
+   width="1206.9431"
+   version="1.1"
+   id="svg1528"
+   sodipodi:docname="sankey.svg"
+   inkscape:version="1.0.1 (3bc2e813f5, 2020-09-07)">
+  <metadata
+     id="metadata1534">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title>Your Diagram Title</dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs1532" />
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1829"
+     inkscape:window-height="1006"
+     id="namedview1530"
+     showgrid="false"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     inkscape:zoom="0.86833333"
+     inkscape:cx="600"
+     inkscape:cy="362.6253"
+     inkscape:window-x="507"
+     inkscape:window-y="202"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg1528" />
+  <title
+     id="title1276">Your Diagram Title</title>
+  <!-- Generated with SankeyMATIC: 7/17/2026, 2:10:23 AM -->
+  <rect
+     height="600"
+     width="1200"
+     fill="#ffffff"
+     id="rect1278"
+     x="0"
+     y="62.625301" />
+  <g
+     transform="translate(12,80.625301)"
+     id="g1526">
+    <g
+       id="sankey_flows">
+      <path
+         id="flow1"
+         d="m 12,429.03263 c 45.13145,0 45.13145,8.19554 90.26289,8.19554"
+         fill="none"
+         stroke-width="249.544"
+         stroke="#e377c2"
+         opacity="0.45">
+        <title
+           id="title1280">Spectra → No Spikes: 2,042</title>
+      </path>
+      <path
+         id="flow4"
+         d="m 109.67529,165.71068 c 137.70618,0 137.70618,202.53457 275.41236,202.53457"
+         fill="none"
+         stroke-width="147.135"
+         stroke="#7f7f7f"
+         opacity="0.45">
+        <title
+           id="title1283">Spikes → Airglow: 1,204</title>
+      </path>
+      <path
+         id="flow0"
+         d="m 12,256.66176 c 42.83765,0 42.83765,-31.3759 85.67529,-31.3759"
+         fill="none"
+         stroke-width="95.1981"
+         stroke="#e377c2"
+         opacity="0.45">
+        <title
+           id="title1286">Spectra → Spikes: 779</title>
+      </path>
+      <path
+         id="flow2"
+         d="m 109.67529,31.0402 c 126.28556,0 126.28556,14.00775 252.57113,14.00775"
+         fill="none"
+         stroke-width="62.0804"
+         stroke="#7f7f7f"
+         opacity="0.45">
+        <title
+           id="title1289">Spikes → Tier 1 Candidates: 508</title>
+      </path>
+      <path
+         id="flow7"
+         d="m 374.24642,45.59787 c 296.80114,0 296.80114,77.01034 593.60229,77.01034"
+         fill="none"
+         stroke-width="47.5379"
+         stroke="#d62728"
+         opacity="0.45">
+        <title
+           id="title1292">Tier 1 Candidates → Cosmic Rays: 389</title>
+      </path>
+      <path
+         id="flow5"
+         d="m 109.67529,256.08165 c 137.34807,0 137.34807,289.11509 274.69615,289.11509"
+         fill="none"
+         stroke-width="33.6065"
+         stroke="#7f7f7f"
+         opacity="0.45">
+        <title
+           id="title1295">Spikes → Ca-II H &amp; K Lines: 275</title>
+      </path>
+      <path
+         id="flow3"
+         d="m 109.67529,77.11168 c 128.00522,0 128.00522,85.22237 256.01044,85.22237"
+         fill="none"
+         stroke-width="30.0626"
+         stroke="#7f7f7f"
+         opacity="0.45">
+        <title
+           id="title1298">Spikes → Clustered Spikes: 246</title>
+      </path>
+      <path
+         id="flow14"
+         d="m 377.68573,169.11646 c 40.13406,0 40.13406,118.30061 80.26813,118.30061"
+         fill="none"
+         stroke-width="16.4977"
+         stroke="#1f77b4"
+         opacity="0.45">
+        <title
+           id="title1301">Clustered Spikes → From Emission Stars: 135</title>
+      </path>
+      <path
+         id="flow15"
+         d="m 377.68573,154.08518 c 39.25799,0 39.25799,57.70688 78.51599,57.70688"
+         fill="none"
+         stroke-width="13.5648"
+         stroke="#1f77b4"
+         opacity="0.45">
+        <title
+           id="title1304">Clustered Spikes → Not From Emission Stars: 111</title>
+      </path>
+      <path
+         id="flow16"
+         d="m 468.20172,214.05286 c 249.8235,0 249.8235,110.42583 499.64699,110.42583"
+         fill="none"
+         stroke-width="9.04321"
+         stroke="#bcbd22"
+         opacity="0.45">
+        <title
+           id="title1307">Not From Emission Stars → Curve Fit: Too Narrow: 74</title>
+      </path>
+      <path
+         id="flow6"
+         d="m 374.24642,17.91832 c 99.42292,0 99.42292,-14.00774 198.84584,-14.00774"
+         fill="none"
+         stroke-width="7.82115"
+         stroke="#17becf"
+         opacity="0.45">
+        <title
+           id="title1310">Tier 1 Candidates → Tier 2 Candidates: 64</title>
+      </path>
+      <path
+         id="flow12"
+         d="m 585.09226,2.38301 c 80.25951,0 80.25951,33.78127 160.51903,33.78127"
+         fill="none"
+         stroke-width="4.76602"
+         stroke="#17becf"
+         opacity="0.45">
+        <title
+           id="title1313">Tier 2 Candidates → Tier 3 Candidates: 39</title>
+      </path>
+      <path
+         id="flow13"
+         d="m 585.09226,6.29358 c 191.37822,0 191.37822,312.13594 382.75645,312.13594"
+         fill="none"
+         stroke-width="3.05514"
+         stroke="#bcbd22"
+         opacity="0.45">
+        <title
+           id="title1316">Tier 2 Candidates → Curve Fit: Too Narrow: 25</title>
+      </path>
+      <path
+         id="flow18"
+         d="m 468.20172,207.39266 c 249.8235,0 249.8235,-59.48791 499.64699,-59.48791"
+         fill="none"
+         stroke-width="3.05514"
+         stroke="#d62728"
+         opacity="0.45">
+        <title
+           id="title1319">Not From Emission Stars → Cosmic Rays: 25</title>
+      </path>
+      <path
+         id="flow8"
+         d="m 374.24642,72.9108 c 296.80114,0 296.80114,124.43614 593.60229,124.43614"
+         fill="none"
+         stroke-width="2.93293"
+         stroke="#9467bd"
+         opacity="0.45">
+        <title
+           id="title1322">Tier 1 Candidates → Stellar Emission: 24</title>
+      </path>
+      <path
+         id="flow21"
+         d="m 757.61129,37.20303 c 102.11894,0 102.11894,27.69339 204.23789,27.69339"
+         fill="none"
+         stroke-width="2.68852"
+         stroke="#ff7f0e"
+         opacity="0.45">
+        <title
+           id="title1325">Tier 3 Candidates → Unk. Terr. Interference: 22</title>
+      </path>
+      <path
+         id="flow9"
+         d="m 374.24642,70.40559 c 296.80114,0 296.80114,100.80596 593.60229,100.80596"
+         fill="none"
+         stroke-width="2.07749"
+         stroke="#17becf"
+         opacity="0.45">
+        <title
+           id="title1328">Tier 1 Candidates → Instrumental Artifact: 17</title>
+      </path>
+      <path
+         id="flow22"
+         d="m 757.61129,35.00333 c 102.61722,0 102.61722,-13.4759 205.23444,-13.4759"
+         fill="none"
+         stroke-width="1.71088"
+         stroke="#17becf"
+         opacity="0.45">
+        <title
+           id="title1331">Tier 3 Candidates → Tier 4 Candidates: 14</title>
+      </path>
+      <path
+         id="flow10"
+         d="m 374.24642,74.9272 c 296.80114,0 296.80114,159.02522 593.60229,159.02522"
+         fill="none"
+         stroke-width="1.09985"
+         stroke="#e377c2"
+         opacity="0.45">
+        <title
+           id="title1334">Tier 1 Candidates → Bleedthrough: 9</title>
+      </path>
+      <path
+         id="flow11"
+         d="m 374.24642,75.78263 c 295.19451,0 295.19451,202.78026 590.38903,202.78026"
+         fill="none"
+         stroke-width="1"
+         stroke="#7f7f7f"
+         opacity="0.45">
+        <title
+           id="title1337">Tier 1 Candidates → Low Signal/noise: 5</title>
+      </path>
+      <path
+         id="flow19"
+         d="m 468.20172,209.16464 c 249.8235,0 249.8235,25.58211 499.64699,25.58211"
+         fill="none"
+         stroke-width="1"
+         stroke="#e377c2"
+         opacity="0.45">
+        <title
+           id="title1340">Not From Emission Stars → Bleedthrough: 4</title>
+      </path>
+      <path
+         id="flow17"
+         d="m 468.20172,205.68178 c 138.70479,0 138.70479,-166.95118 277.40957,-166.95118"
+         fill="none"
+         stroke-width="1"
+         stroke="#17becf"
+         opacity="0.45">
+        <title
+           id="title1343">Not From Emission Stars → Tier 3 Candidates: 3</title>
+      </path>
+      <path
+         id="flow23"
+         d="M 757.61129,38.7306 C 862.73,38.7306 862.73,195.69717 967.84871,195.69717"
+         fill="none"
+         stroke-width="1"
+         stroke="#9467bd"
+         opacity="0.45">
+        <title
+           id="title1346">Tier 3 Candidates → Stellar Emission: 3</title>
+      </path>
+      <path
+         id="flow20"
+         d="m 468.20172,209.47015 c 248.21687,0 248.21687,69.45936 496.43373,69.45936"
+         fill="none"
+         stroke-width="1"
+         stroke="#7f7f7f"
+         opacity="0.45">
+        <title
+           id="title1349">Not From Emission Stars → Low Signal/noise: 1</title>
+      </path>
+    </g>
+    <g
+       id="sankey_nodes">
+      <g
+         class="node"
+         id="g1356">
+        <rect
+           id="r0"
+           class="for_r0"
+           x="0"
+           y="209.06271"
+           height="344.74176"
+           width="12"
+           fill="#e377c2"
+           fill-opacity="1">
+          <title
+             id="title1353">Spectra:
+2,821</title>
+        </rect>
+      </g>
+      <g
+         class="node"
+         id="g1361">
+        <rect
+           id="r1"
+           class="for_r1"
+           x="193.56973"
+           y="9.8928604"
+           height="272.88492"
+           width="12"
+           fill="#7f7f7f"
+           fill-opacity="1"
+           transform="translate(-95.89445,-9.89286)">
+          <title
+             id="title1358">Spikes:
+2,233</title>
+        </rect>
+      </g>
+      <g
+         class="node"
+         id="g1366">
+        <rect
+           id="r2"
+           class="for_r2"
+           x="193.56973"
+           y="312.45633"
+           height="249.54366"
+           width="12"
+           fill="#bcbd22"
+           fill-opacity="1"
+           transform="translate(-91.30685)">
+          <title
+             id="title1363">No Spikes:
+2,042</title>
+        </rect>
+      </g>
+      <g
+         class="node"
+         id="g1371">
+        <rect
+           id="r3"
+           class="for_r3"
+           x="387.13947"
+           y="0"
+           height="62.080399"
+           width="12"
+           fill="#17becf"
+           fill-opacity="1"
+           transform="translate(-24.89307,14.00775)">
+          <title
+             id="title1368">Tier 1 Candidates:
+508</title>
+        </rect>
+      </g>
+      <g
+         class="node"
+         id="g1376">
+        <rect
+           id="r4"
+           class="for_r4"
+           x="387.13947"
+           y="268.57297"
+           height="30.062559"
+           width="12"
+           fill="#1f77b4"
+           fill-opacity="1"
+           transform="translate(-21.45376,-121.27021)">
+          <title
+             id="title1373">Clustered Spikes:
+246</title>
+        </rect>
+      </g>
+      <g
+         class="node"
+         id="g1381">
+        <rect
+           id="r5"
+           class="for_r5"
+           x="387.13947"
+           y="91.758972"
+           height="147.13544"
+           width="12"
+           fill="#ff7f0e"
+           fill-opacity="1"
+           transform="translate(-2.05184,202.91855)">
+          <title
+             id="title1378">Airglow:
+1,204</title>
+        </rect>
+      </g>
+      <g
+         class="node"
+         id="g1386">
+        <rect
+           id="r6"
+           class="for_r6"
+           x="387.13947"
+           y="328.31412"
+           height="33.606522"
+           width="12"
+           fill="#2ca02c"
+           fill-opacity="1"
+           transform="translate(-2.76805,200.07937)">
+          <title
+             id="title1383">Ca-II H &amp; K Lines:
+275</title>
+        </rect>
+      </g>
+      <g
+         class="node"
+         id="g1391">
+        <rect
+           id="r7"
+           class="for_r7"
+           x="580.70923"
+           y="172.3625"
+           height="7.8211498"
+           width="12"
+           fill="#17becf"
+           fill-opacity="1"
+           transform="translate(-7.61697,-172.36251)">
+          <title
+             id="title1388">Tier 2 Candidates:
+64</title>
+        </rect>
+      </g>
+      <g
+         class="node"
+         id="g1396">
+        <rect
+           id="r8"
+           class="for_r8"
+           x="774.27899"
+           y="11.66079"
+           height="50.593079"
+           width="12"
+           fill="#d62728"
+           fill-opacity="1"
+           transform="translate(193.56974,87.17845)">
+          <title
+             id="title1393">Cosmic Rays:
+414</title>
+        </rect>
+      </g>
+      <g
+         class="node"
+         id="g1401">
+        <rect
+           id="r9"
+           class="for_r9"
+           x="967.84869"
+           y="122.59757"
+           height="3.2995501"
+           width="12"
+           fill="#9467bd"
+           fill-opacity="1"
+           transform="translate(0,72.91629)">
+          <title
+             id="title1398">Stellar Emission:
+27</title>
+        </rect>
+      </g>
+      <g
+         class="node"
+         id="g1406">
+        <rect
+           id="r10"
+           class="for_r10"
+           x="580.70923"
+           y="77.216522"
+           height="2.0774901"
+           width="12"
+           fill="#8c564b"
+           fill-opacity="1"
+           transform="translate(387.13948,92.95629)">
+          <title
+             id="title1403">Instrumental Artifact:
+17</title>
+        </rect>
+      </g>
+      <g
+         class="node"
+         id="g1411">
+        <rect
+           id="r11"
+           class="for_r11"
+           x="774.27899"
+           y="148.39658"
+           height="1.58867"
+           width="12"
+           fill="#e377c2"
+           fill-opacity="1"
+           transform="translate(193.56974,85.00591)">
+          <title
+             id="title1408">Bleedthrough:
+13</title>
+        </rect>
+      </g>
+      <g
+         class="node"
+         id="g1416">
+        <rect
+           id="r12"
+           class="for_r12"
+           x="774.27899"
+           y="214.47502"
+           height="0.73322999"
+           width="12"
+           fill="#7f7f7f"
+           fill-opacity="1"
+           transform="translate(190.35648,63.78236)">
+          <title
+             id="title1413">Low Signal/noise:
+6</title>
+        </rect>
+      </g>
+      <g
+         class="node"
+         id="g1421">
+        <rect
+           id="r13"
+           class="for_r13"
+           x="774.27899"
+           y="179.66382"
+           height="5.1326299"
+           width="12"
+           fill="#17becf"
+           fill-opacity="1"
+           transform="translate(-28.66768,-145.88254)">
+          <title
+             id="title1418">Tier 3 Candidates:
+42</title>
+        </rect>
+      </g>
+      <g
+         class="node"
+         id="g1426">
+        <rect
+           id="r14"
+           class="for_r14"
+           x="774.27899"
+           y="244.88683"
+           height="12.09835"
+           width="12"
+           fill="#bcbd22"
+           fill-opacity="1"
+           transform="translate(193.56974,72.01512)">
+          <title
+             id="title1423">Curve Fit: Too Narrow:
+99</title>
+        </rect>
+      </g>
+      <g
+         class="node"
+         id="g1431">
+        <rect
+           id="r15"
+           class="for_r15"
+           x="580.70923"
+           y="283.3952"
+           height="16.49774"
+           width="12"
+           fill="#17becf"
+           fill-opacity="1"
+           transform="translate(-122.75537,-4.22701)">
+          <title
+             id="title1428">From Emission Stars:
+135</title>
+        </rect>
+      </g>
+      <g
+         class="node"
+         id="g1436">
+        <rect
+           id="r16"
+           class="for_r16"
+           x="580.70923"
+           y="240.15182"
+           height="13.56481"
+           width="12"
+           fill="#1f77b4"
+           fill-opacity="1"
+           transform="translate(-124.50751,-35.14218)">
+          <title
+             id="title1433">Not From Emission Stars:
+111</title>
+        </rect>
+      </g>
+      <g
+         class="node"
+         id="g1441">
+        <rect
+           id="r17"
+           class="for_r17"
+           x="967.84869"
+           y="168.85539"
+           height="2.68852"
+           width="12"
+           fill="#ff7f0e"
+           fill-opacity="1"
+           transform="translate(-5.99953,-105.30323)">
+          <title
+             id="title1438">Unk. Terr. Interference:
+22</title>
+        </rect>
+      </g>
+      <g
+         class="node"
+         id="g1446">
+        <rect
+           id="r18"
+           class="for_r18"
+           x="967.84869"
+           y="201.22247"
+           height="1.71088"
+           width="12"
+           fill="#17becf"
+           fill-opacity="1"
+           transform="translate(-5.00298,-180.55048)">
+          <title
+             id="title1443">Tier 4 Candidates:
+14</title>
+        </rect>
+      </g>
+    </g>
+    <g
+       id="sankey_labels"
+       font-family="sans-serif"
+       font-size="16px"
+       fill="#000000">
+      <rect
+         id="label0_bg"
+         class="for_r0"
+         x="13.6327"
+         y="369.36359"
+         width="113.80766"
+         height="23"
+         rx="4"
+         fill="#ffffff"
+         fill-opacity="0.75"
+         stroke="none"
+         stroke-width="0"
+         stroke-opacity="0" />
+      <text
+         id="label0"
+         class="for_r0"
+         text-anchor="start"
+         x="18.297541"
+         y="381.43359"
+         font-weight="400"
+         font-size="16px"
+         dy="4.9299998">Spectra: <tspan
+   font-weight="400"
+   font-size="16px"
+   id="tspan1450">2,821</tspan></text>
+      <rect
+         id="label1_bg"
+         class="for_r1"
+         x="207.20244"
+         y="134.2653"
+         width="106.79203"
+         height="23"
+         rx="4"
+         fill="#ffffff"
+         fill-opacity="0.75"
+         stroke="none"
+         stroke-width="0"
+         stroke-opacity="0"
+         transform="translate(-95.89445,-9.89286)" />
+      <text
+         id="label1"
+         class="for_r1"
+         text-anchor="start"
+         x="211.86728"
+         y="146.33531"
+         font-weight="400"
+         font-size="16px"
+         dy="4.9299998"
+         transform="translate(-95.89445,-9.89286)">Spikes: <tspan
+   font-weight="400"
+   font-size="16px"
+   id="tspan1454">2,233</tspan></text>
+      <rect
+         id="label2_bg"
+         class="for_r2"
+         x="207.20244"
+         y="425.15817"
+         width="131.68266"
+         height="23"
+         rx="4"
+         fill="#ffffff"
+         fill-opacity="0.75"
+         stroke="none"
+         stroke-width="0"
+         stroke-opacity="0"
+         transform="translate(-91.30685)" />
+      <text
+         id="label2"
+         class="for_r2"
+         text-anchor="start"
+         x="211.86728"
+         y="437.22818"
+         font-weight="400"
+         font-size="16px"
+         dy="4.9299998"
+         transform="translate(-91.30685)">No Spikes: <tspan
+   font-weight="400"
+   font-size="16px"
+   id="tspan1458">2,042</tspan></text>
+      <rect
+         id="label3_bg"
+         class="for_r3"
+         x="400.77216"
+         y="18.9702"
+         width="171.12016"
+         height="23"
+         rx="4"
+         fill="#ffffff"
+         fill-opacity="0.75"
+         stroke="none"
+         stroke-width="0"
+         stroke-opacity="0"
+         transform="translate(-24.89307,14.00775)" />
+      <text
+         id="label3"
+         class="for_r3"
+         text-anchor="start"
+         x="405.43701"
+         y="31.040199"
+         font-weight="400"
+         font-size="16px"
+         dy="4.9299998"
+         transform="translate(-24.89307,14.00775)">Tier 1 Candidates: <tspan
+   font-weight="400"
+   font-size="16px"
+   id="tspan1462">508</tspan></text>
+      <rect
+         id="label4_bg"
+         class="for_r4"
+         x="400.77216"
+         y="271.53424"
+         width="166.37016"
+         height="23"
+         rx="4"
+         fill="#ffffff"
+         fill-opacity="0.75"
+         stroke="none"
+         stroke-width="0"
+         stroke-opacity="0"
+         transform="translate(-21.45376,-121.27021)" />
+      <text
+         id="label4"
+         class="for_r4"
+         text-anchor="start"
+         x="405.43701"
+         y="283.60425"
+         font-weight="400"
+         font-size="16px"
+         dy="4.9299998"
+         transform="translate(-21.45376,-121.27021)">Clustered Spikes: <tspan
+   font-weight="400"
+   font-size="16px"
+   id="tspan1466">246</tspan></text>
+      <rect
+         id="label5_bg"
+         class="for_r5"
+         x="399.77216"
+         y="153.25668"
+         width="112.22953"
+         height="23"
+         rx="4"
+         fill="#ffffff"
+         fill-opacity="0.75"
+         stroke="none"
+         stroke-width="0"
+         stroke-opacity="0"
+         transform="translate(-2.05184,202.91855)" />
+      <text
+         id="label5"
+         class="for_r5"
+         text-anchor="start"
+         x="405.43701"
+         y="165.32669"
+         font-weight="400"
+         font-size="16px"
+         dy="4.9299998"
+         transform="translate(-2.05184,202.91855)">Airglow: <tspan
+   font-weight="400"
+   font-size="16px"
+   id="tspan1470">1,204</tspan></text>
+      <rect
+         id="label6_bg"
+         class="for_r6"
+         x="400.77216"
+         y="333.04736"
+         width="169.02641"
+         height="23"
+         rx="4"
+         fill="#ffffff"
+         fill-opacity="0.75"
+         stroke="none"
+         stroke-width="0"
+         stroke-opacity="0"
+         transform="translate(-2.76805,200.07937)" />
+      <text
+         id="label6"
+         class="for_r6"
+         text-anchor="start"
+         x="405.43701"
+         y="345.11737"
+         font-weight="400"
+         font-size="16px"
+         dy="4.9299998"
+         transform="translate(-2.76805,200.07937)">Ca-II H &amp; K Lines: <tspan
+   font-weight="400"
+   font-size="16px"
+   id="tspan1474">275</tspan></text>
+      <rect
+         id="label7_bg"
+         class="for_r7"
+         x="594.34192"
+         y="164.20308"
+         width="162.22173"
+         height="23"
+         rx="4"
+         fill="#ffffff"
+         fill-opacity="0.75"
+         stroke="none"
+         stroke-width="0"
+         stroke-opacity="0"
+         transform="translate(-7.61697,-172.36251)" />
+      <text
+         id="label7"
+         class="for_r7"
+         text-anchor="start"
+         x="599.00677"
+         y="176.27309"
+         font-weight="400"
+         font-size="16px"
+         dy="4.9299998"
+         transform="translate(-7.61697,-172.36251)">Tier 2 Candidates: <tspan
+   font-weight="400"
+   font-size="16px"
+   id="tspan1478">64</tspan></text>
+      <rect
+         id="label8_bg"
+         class="for_r8"
+         x="787.91168"
+         y="24.887329"
+         width="139.65141"
+         height="23"
+         rx="4"
+         fill="#ffffff"
+         fill-opacity="0.75"
+         stroke="none"
+         stroke-width="0"
+         stroke-opacity="0"
+         transform="translate(193.56974,87.17845)" />
+      <text
+         id="label8"
+         class="for_r8"
+         text-anchor="start"
+         x="792.57654"
+         y="36.957329"
+         font-weight="400"
+         font-size="16px"
+         dy="4.9299998"
+         transform="translate(193.56974,87.17845)">Cosmic Rays: <tspan
+   font-weight="400"
+   font-size="16px"
+   id="tspan1482">414</tspan></text>
+      <rect
+         id="label9_bg"
+         class="for_r9"
+         x="981.48138"
+         y="112.17734"
+         width="151.22173"
+         height="23"
+         rx="4"
+         fill="#ffffff"
+         fill-opacity="0.75"
+         stroke="none"
+         stroke-width="0"
+         stroke-opacity="0"
+         transform="translate(0,72.91629)" />
+      <text
+         id="label9"
+         class="for_r9"
+         text-anchor="start"
+         x="986.14624"
+         y="124.24734"
+         font-weight="400"
+         font-size="16px"
+         dy="4.9299998"
+         transform="translate(0,72.91629)">Stellar Emission: <tspan
+   font-weight="400"
+   font-size="16px"
+   id="tspan1486">27</tspan></text>
+      <rect
+         id="label10_bg"
+         class="for_r10"
+         x="594.34192"
+         y="66.185257"
+         width="177.90923"
+         height="23"
+         rx="4"
+         fill="#ffffff"
+         fill-opacity="0.75"
+         stroke="none"
+         stroke-width="0"
+         stroke-opacity="0"
+         transform="translate(387.13948,92.95629)" />
+      <text
+         id="label10"
+         class="for_r10"
+         text-anchor="start"
+         x="599.00677"
+         y="78.255257"
+         font-weight="400"
+         font-size="16px"
+         dy="4.9299998"
+         transform="translate(387.13948,92.95629)">Instrumental Artifact: <tspan
+   font-weight="400"
+   font-size="16px"
+   id="tspan1490">17</tspan></text>
+      <rect
+         id="label11_bg"
+         class="for_r11"
+         x="787.91168"
+         y="137.1209"
+         width="131.70609"
+         height="23"
+         rx="4"
+         fill="#ffffff"
+         fill-opacity="0.75"
+         stroke="none"
+         stroke-width="0"
+         stroke-opacity="0"
+         transform="translate(193.56974,85.00591)" />
+      <text
+         id="label11"
+         class="for_r11"
+         text-anchor="start"
+         x="792.57654"
+         y="149.1909"
+         font-weight="400"
+         font-size="16px"
+         dy="4.9299998"
+         transform="translate(193.56974,85.00591)">Bleedthrough: <tspan
+   font-weight="400"
+   font-size="16px"
+   id="tspan1494">13</tspan></text>
+      <rect
+         id="label12_bg"
+         class="for_r12"
+         x="787.91168"
+         y="202.77164"
+         width="148.58891"
+         height="23"
+         rx="4"
+         fill="#ffffff"
+         fill-opacity="0.75"
+         stroke="none"
+         stroke-width="0"
+         stroke-opacity="0"
+         transform="translate(190.35648,63.78236)" />
+      <text
+         id="label12"
+         class="for_r12"
+         text-anchor="start"
+         x="792.57654"
+         y="214.84164"
+         font-weight="400"
+         font-size="16px"
+         dy="4.9299998"
+         transform="translate(190.35648,63.78236)">Low Signal/noise: <tspan
+   font-weight="400"
+   font-size="16px"
+   id="tspan1498">6</tspan></text>
+      <rect
+         id="label13_bg"
+         class="for_r13"
+         x="787.91168"
+         y="170.16013"
+         width="162.22173"
+         height="23"
+         rx="4"
+         fill="#ffffff"
+         fill-opacity="0.75"
+         stroke="none"
+         stroke-width="0"
+         stroke-opacity="0"
+         transform="translate(-28.66768,-145.88254)" />
+      <text
+         id="label13"
+         class="for_r13"
+         text-anchor="start"
+         x="792.57654"
+         y="182.23013"
+         font-weight="400"
+         font-size="16px"
+         dy="4.9299998"
+         transform="translate(-28.66768,-145.88254)">Tier 3 Candidates: <tspan
+   font-weight="400"
+   font-size="16px"
+   id="tspan1502">42</tspan></text>
+      <rect
+         id="label14_bg"
+         class="for_r14"
+         x="787.91168"
+         y="238.866"
+         width="191.83109"
+         height="23"
+         rx="4"
+         fill="#ffffff"
+         fill-opacity="0.75"
+         stroke="none"
+         stroke-width="0"
+         stroke-opacity="0"
+         transform="translate(193.56974,72.01512)" />
+      <text
+         id="label14"
+         class="for_r14"
+         text-anchor="start"
+         x="792.57654"
+         y="250.936"
+         font-weight="400"
+         font-size="16px"
+         dy="4.9299998"
+         transform="translate(193.56974,72.01512)">Curve Fit: Too Narrow: <tspan
+   font-weight="400"
+   font-size="16px"
+   id="tspan1506">99</tspan></text>
+      <rect
+         id="label15_bg"
+         class="for_r15"
+         x="594.34192"
+         y="279.5741"
+         width="193.88577"
+         height="23"
+         rx="4"
+         fill="#ffffff"
+         fill-opacity="0.75"
+         stroke="none"
+         stroke-width="0"
+         stroke-opacity="0"
+         transform="translate(-122.75537,-4.22701)" />
+      <text
+         id="label15"
+         class="for_r15"
+         text-anchor="start"
+         x="599.00677"
+         y="291.6441"
+         font-weight="400"
+         font-size="16px"
+         dy="4.9299998"
+         transform="translate(-122.75537,-4.22701)">From Emission Stars: <tspan
+   font-weight="400"
+   font-size="16px"
+   id="tspan1510">135</tspan></text>
+      <rect
+         id="label16_bg"
+         class="for_r16"
+         x="594.34192"
+         y="234.86423"
+         width="220.76077"
+         height="23"
+         rx="4"
+         fill="#ffffff"
+         fill-opacity="0.75"
+         stroke="none"
+         stroke-width="0"
+         stroke-opacity="0"
+         transform="translate(-124.50751,-35.14218)" />
+      <text
+         id="label16"
+         class="for_r16"
+         text-anchor="start"
+         x="599.00677"
+         y="246.93423"
+         font-weight="400"
+         font-size="16px"
+         dy="4.9299998"
+         transform="translate(-124.50751,-35.14218)">Not From Emission Stars: <tspan
+   font-weight="400"
+   font-size="16px"
+   id="tspan1514">111</tspan></text>
+      <rect
+         id="label17_bg"
+         class="for_r17"
+         x="981.48138"
+         y="158.12964"
+         width="194.51859"
+         height="23"
+         rx="4"
+         fill="#ffffff"
+         fill-opacity="0.75"
+         stroke="none"
+         stroke-width="0"
+         stroke-opacity="0"
+         transform="translate(-5.99953,-105.30323)" />
+      <text
+         id="label17"
+         class="for_r17"
+         text-anchor="start"
+         x="986.14624"
+         y="170.19965"
+         font-weight="400"
+         font-size="16px"
+         dy="4.9299998"
+         transform="translate(-5.99953,-105.30323)">Unk. Terr. Interference: <tspan
+   font-weight="400"
+   font-size="16px"
+   id="tspan1518">22</tspan></text>
+      <rect
+         id="label18_bg"
+         class="for_r18"
+         x="981.48138"
+         y="190.00792"
+         width="162.22173"
+         height="23"
+         rx="4"
+         fill="#ffffff"
+         fill-opacity="0.75"
+         stroke="none"
+         stroke-width="0"
+         stroke-opacity="0"
+         transform="translate(-5.00298,-180.55048)" />
+      <text
+         id="label18"
+         class="for_r18"
+         text-anchor="start"
+         x="986.14624"
+         y="202.07793"
+         font-weight="400"
+         font-size="16px"
+         dy="4.9299998"
+         transform="translate(-5.00298,-180.55048)">Tier 4 Candidates: <tspan
+   font-weight="400"
+   font-size="16px"
+   id="tspan1522">14</tspan></text>
+    </g>
+  </g>
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-weight:normal;font-size:40px;line-height:1;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none"
+     x="124.35793"
+     y="20.472656"
+     id="text1176"><tspan
+       sodipodi:role="line"
+       id="tspan1174"
+       x="124.35793"
+       y="20.472656"
+       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:24px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">3.1 Automated</tspan><tspan
+       sodipodi:role="line"
+       x="124.35793"
+       y="60.472656"
+       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:24px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal"
+       id="tspan1206">Search </tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-weight:normal;font-size:40px;line-height:1;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none"
+     x="421.87247"
+     y="18.234375"
+     id="text1176-4"><tspan
+       sodipodi:role="line"
+       x="421.87247"
+       y="18.234375"
+       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:24px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal"
+       id="tspan1200">4.2 Manual</tspan><tspan
+       sodipodi:role="line"
+       x="421.87247"
+       y="58.234375"
+       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:24px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal"
+       id="tspan1204">Analysis </tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-weight:normal;font-size:40px;line-height:1;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none"
+     x="671.09033"
+     y="17.947266"
+     id="text1176-4-9"><tspan
+       sodipodi:role="line"
+       x="671.09033"
+       y="17.947266"
+       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:24px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal"
+       id="tspan1204-9">4.4 Curve</tspan><tspan
+       sodipodi:role="line"
+       x="671.09033"
+       y="57.947266"
+       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:24px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal"
+       id="tspan1231">Fitting </tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-weight:normal;font-size:40px;line-height:1;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none"
+     x="841.4505"
+     y="17.947266"
+     id="text1176-4-9-0"><tspan
+       sodipodi:role="line"
+       x="841.4505"
+       y="17.947266"
+       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:24px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal"
+       id="tspan1256">6.2 Same-</tspan><tspan
+       sodipodi:role="line"
+       x="841.4505"
+       y="57.947266"
+       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:24px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal"
+       id="tspan1264">Night Test</tspan></text>
+</svg>
