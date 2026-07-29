@@ -1,0 +1,1 @@
+stars,spectral_types,specfiles,hits_start,hits_end,waves1,waves2,waves_orig,HorK
